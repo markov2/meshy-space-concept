@@ -1,0 +1,52 @@
+<h1>Meshy Space Concept (MSC) schema</h1>
+
+<p>The <i>concept</i> (preferred namespace prefix <code>msc:</code>) is
+implemented on top of the <i>Meshy Space Interfaces</i> (MSI) structures
+(<a href="../base/">namespace prefix <code>ms:</code></a>), just like
+your own projects can be implemented on top that infrastructure or on
+the Concept.</p>
+
+<p>The Concept uses administration which is maintained in
+<SCHEMA>ms:unit</SCHEMA> elements of certain types within the
+<code>msc:Role.</code> namespace.  But there are units of other types
+as well.  Where units are like "object", objects have different purposes
+and that expects certain relations with other "objects". The roles
+indicate what to expect, and sometimes add a little extra.</p>
+
+<ul>
+<li><a href="/schemas/concept/msc.xsd">Download</a> the full schema.
+    (Your browser may not show anything: use "View Page Source")</li>
+<li>Predefined <a href="constants/index.html">constants</a> in the
+    <code>msc:</code> namespace.</li>
+</ul>
+
+<h2>Overview of the Concept</h2>
+
+<p>You first connect to an existing <i>server</i> (usually a daemon
+on your own system) to get your own working-space.  You get your own
+(private) namespace, like a login.  Within your namespace, you add your
+<i>identities</i>, your private data-<i>collections</i>, and a cache of
+units retrieved from other people's data-collections.</p>
+
+<p>When you have information to share, you start (with one of your
+public identities) a data-collection in a new namespace.  On the highest
+level, you start with a <i>company</i> which represents the responsible
+organisational entity (company, foundation, person).  Companies have a
+collection of <i>stores</i>, which each represent different activities
+(shop, department, project).  On their turn, stores are composed
+of <i>collections</i>, which group strongly related information.
+Collections may have sub-collections, and so on.  Somewhere down there
+are <i>products</i> which contain the information which is the real data,
+foreign to the concept.  For instance, images and data-files are produced
+by external programs hence referred to as products.</p>
+
+<h2>The schema header</h2>
+
+<XML>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" version="0.1.0"
+   elementFormDefault="qualified" attributeFormDefault="qualified"
+   targetNamespace="https://schemas.meshy.space/concept.xsd"
+   xmlns:msc="https://schemas.meshy.space/concept.xsd"
+   xmlns:ms="https://schemas.meshy.space/base.xsd"
+>
+</XML>

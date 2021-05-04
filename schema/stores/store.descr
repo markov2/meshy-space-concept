@@ -1,0 +1,104 @@
+=short
+
+<p>Units of type <code>msc:Role.Store</code> contain the
+<code>msc:store</code> element as payload.  It combines everything what
+has to do with one "company entitiy".  It groups, searching, processing,
+uploading, and downloading of data.</p>
+
+=schema
+
+==xml
+<element name="store" type="_store" substitutionGroup="ms:native" />
+
+<complexType name="_store">
+  <complexContent>
+    <extension base="ms:_native">
+    </extension>
+  </complexContent>
+</complexType>
+==end
+
+=description
+
+<p>Interpret the <i>store</i> as a real-life store in your shopping
+street: a place where you can bring or collect things, where you can
+place orders for goods or services.</p>
+
+<p>What shops need is currently all offered by the generic
+<SCHEMA>ms:unit</SCHEMA>, so the specific payload is empty.  This
+may change.</p>
+
+<h2>Setting-up a Store</h2>
+
+<p>You may put all your store's products and activities as parts
+directly inside the same unit.  However, when their number grow,
+this gets inconvenient.  Better split them into comprehensive
+collections which bundle related goods and activities.</p>
+
+<p>Each collection may pick its own access rules, replication, defaults,
+and so on: the management features of units.  This simplifies the
+administration.</p>
+
+<p class="list">The store itself usually contains the following
+parts and values:</p>
+<dl>
+<dt><code>jurisdiction</code></dt>
+<dd>When the jurisdiction of data is not defined, it will cause
+    complications implementing regulations and enforce law.  It
+    is RECOMMENDED to set your jurisdiction on Store level.
+    See <SCHEMA>ms:jurisdiction</SCHEMA>.
+<dt>Indentities of users</dt>
+<dd><SCHEMA>ms:identity</SCHEMA> units, which are used for
+    <code>msc:Role.Access</code></dd>
+    <code>msc:Role.Publisher</code></dd>
+    <code>msc:Role.Owner</code></dd>
+<dt>Definitions of servers</dt>
+<dd>The <SCHEMA>ms:server</SCHEMA> descriptions, which are used
+    to communicate with the customers.  The collections will
+    define their location within those servers.</dd>
+</dt>
+
+=example Companies owning stores
+
+<XML>
+<ms:unit ms:id="mine:Company" ms:type="msc:Role.Store">
+  <ms:part ms:ref="mine:Store.Amsterdam" ms:type="msc:Role.Store" />
+  <ms:part ms:ref="mine:Store.NewYork"   ms:type="msc:Role.Store" />
+</ms:unit>
+<ms:unit ms:id="mine:Store.Amsterdam" ms:type="msc:Role.Store">
+  <ms:unit ms:ref="mine:Coll.shoes"    ms:type="msc:Role.Collection" />
+  <ms:unit ms:ref="mine:Coll.sneakers" ms:type="msc:Role.Collection" />
+</ms:unit>
+<ms:unit ms:id="mine:Store.Amsterdam" ms:type="msc:Role.Store">
+  <ms:part ms:ref="mine:Coll.sneakers" ms:type="msc:Role.Collection" />
+</ms:unit>
+</XML>
+
+<p>The Store in Amsterdam does sell normal shoes, but the one in New York
+does not.  Per collection, you define who is maintaining it, who can add,
+and who can use them.  See <SCHEMA>msc:collection</SCHEMA>.</p>
+
+<p>You MAY also include specific sub-sub-sub-Collections in case that's
+useful, but that makes the data harder to maintain.</p>
+
+<p>Remember that you are totally free in the allocations of ids in your
+own namespace (in the example <code>mine:</code>).</p>
+
+=example Creating a catalog of Stores
+
+<p>You can only download Products from Resources which are in the same
+namespace, but you may reference to Stores in other name-spaces.  As long
+as you provide the contact information for these name-spaces via the
+<SCHEMA>ms:namespace</SCHEMA> elements.</p>
+
+<XML>
+<ms:unit ms:id="mine:YellowPages" ms:type="msc:Role.Store">
+  <ms:namespace ms:id="mine:Ns.ex">
+    <ms:prefix>ex</ms:prefix>
+    <ms:uri>https://example.com</ms:uri>
+    <ms:contact>https://meshy.example.com?entry</ms:contact>
+  </ms:namespace>
+  <ms:unit ms:ref="ex:first"  ms:type="msc:Role.Store" />
+</ms:unit>
+</XML>
+

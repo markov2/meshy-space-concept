@@ -1,0 +1,40 @@
+=short
+
+=schema
+
+==xml
+<element name="identity" substitutionGroup="ms:native">
+  <complexType>
+    <complexContent>
+      <extension base="ms:_native">
+        <sequence>
+          <element name="nickname"    type="string" minOccurs="0" />
+          <element name="date-birth"  type="date"   minOccurs="0" />
+          <element name="gender"      type="ms:constant" default="ms:Gender.Undisclosed" />
+          <element name="nationality" type="ms:constant" minOccurs="0" maxOccurs="unbounded" />
+          <element name="phone"       type="string" minOccurs="0" />
+          <element name="email"       type="string" minOccurs="0" />
+          <element name="street"      type="string" minOccurs="0" />
+          <element name="postal-code" type="string" minOccurs="0" />
+          <element name="city"        type="string" minOccurs="0" />
+          <element name="country"     type="string" minOccurs="0" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</element>
+==end
+
+=example Some user
+
+=element gender
+ms:Gender.Male
+ms:Gender.Female
+ms:Gender.Other
+ms:Gender.Undisclosed
+ms:Gender.Unknown
+
+=element nationality
+ms:Country.NL   # iso
+
+=element phone

@@ -1,0 +1,22 @@
+=short
+
+<p>The <i>wallet</i> is used to collect things do not want to share with other
+people, for instance your private keys.
+
+=schema
+
+==xml
+<element name="wallet" substitutionGroup="ms:native">
+  <complexType>
+    <complexContent>
+      <extension base="ms:_native" />
+    </complexContent>
+  </complexType>
+</element>
+==end
+
+=description
+
+<p>The wallet <SCHEMA>ms:has</SCHEMA> collects the private identities
+of some person or organization.  The private identity units should be
+stored encrypted inside the wallet.</p>

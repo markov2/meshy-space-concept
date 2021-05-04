@@ -1,0 +1,35 @@
+
+<p>Collections describe places where to fetch data.  These data-sets
+may be very large or very small.  Somewhere, your application needs
+<i>products</i> to work with.  How you design your products is your art.
+How you want to distribute your products is also your own decision.
+MSI standardizes the way your decisions are denoted.</p>
+
+<p class="list">The hierarchical organization:</p>
+<ul>
+<li>some service publishes <i>products</i>, as response to queries;</li>
+<li>each product publication contains some administrative information,
+    directly available;</li>
+<li>each product MAY also contain <i>parts</i>, which can be seen
+    as sub-products;</li>
+<li>each product can be retrieved from one or more <i>collections</i>;</li>
+<li>collections MAY be wrapped in collection of collections; and </li>
+<li>the top-level collection is placed in <i>publications</i>, which
+    are available via one or more <i>stores.</i></li>
+</ul>
+
+<p>For instance: your have a car sales company.  Your products are cars.
+The cars are constructed on demand.  In a garage (<i>service</i>),
+your customer (<i>client</i>) asks for information about all cars of
+a certain brand.  The garage responds (via a <i>publication</i>) with
+five different models: five <i>products</i>.  Those products require
+some <i>parts</i> which are distributed separately: somewhere is a
+<i>collection</i> of wheels, somewhere else are the windows and the
+screen wipers.  Those collections of parts are to be collected from
+different <i>stores</i>.  Stores usually offer multiple collections,
+and some collections are available from many stores.</p>
+
+<ul>
+<li>See the extended example
+    <a href="example-cc.html">expressing the CommonCrawl huge data collection.</a></li>
+</ul>

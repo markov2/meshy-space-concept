@@ -1,0 +1,417 @@
+<h1>Example complex data archives</h1>
+
+<p>Meshy Space can be used to pass complex packaged data, where the
+client must actively download (or upload) data, preferrably in bulk.
+This page shows how a real-life very large data-sets can be denoted.</p>
+
+<p><b>Be aware</b> that this design only works well (on bulk data) when
+the definitions are heavily cached between calls and processes.  It is
+RECOMMENDED to heavily cache definitions, but mind the expiration!</p>
+
+<h4>CommonCrawl publications</h4>
+
+<p>Open web-crawler organisation <a href="http://commoncrawl.org">CommonCrawl</a>
+monthly crawls a part of internet and publishes the results in huge
+WARC files.  Besides, it makes various derivative products.  Together
+in the order of 200,000 files with a total of 500TB of uncompressed
+information per month.</p>
+
+<p>Access to these files in one of the first implementations of Meshy
+Space Interfaces, so a good example how complex it can get!</p>
+
+<h2>Store</h2>
+
+<p>The <i>publications</i> manage large quantities of data.  Often &mdash;like
+in this example&mdash; it is purely data files, kept on big disks.
+However, it may also be dynamically created data.  Usually, one service
+has very few publications (otherwise, your service is doing too much).</p>
+
+<p class="list">CommonCrawl publishes three interfaces:<p>
+<ul>
+<li>via S3 (using <code>aws s3 cp ...</code>),</li>
+<li>via HTTP (you need to know the names), and</li>
+<li>via a search page (to get separate crawl records).</li>
+</ul>
+
+<p>For the first two, the presented structure is exactly the same.
+The third is very different (and not specified in this example)</p>
+
+<p>The following publication definitions reflect the variety of interfaces.
+The configuration is part of the store definition:</p>
+<XML>
+<ms:unit ms:id="https://commoncrawl.org">
+  <ms:type>msc:Role.Store</ms:type>
+  <ms:has ms:ref="cc:s3"    ms:is="msc:Role.Collection" />
+  <ms:has ms:ref="cc:http"  ms:is="msc:Role.Collection" />
+  <ms:has ms:ref="cc:index" ms:is="msc:Role.Collection" />
+</ms:unit>
+<ms:unit ms:id="cc:s3">
+  <ms:type="msc:Role.Resource">
+  <ms:resource>
+     <ms:address>s3://commoncrawl</ms:address>
+  </ms:resource>
+  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role.Collection" />
+</ms:unit>
+<ms:unit ms:id="cc:http">
+  <ms:type="msc:Role.Resource">
+  <ms:resource>
+     <ms:address>https://commoncrawl.s3.amazonaws.com</ms:address>
+  </ms:resource>
+  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role.Collection" />
+</ms:unit>
+<ms:unit ms:id="cc:index">
+  <ms:address>s3://commoncrawl/cc-index/table/cc-main/warc/</ms:address>
+</ms:unit>
+</XML>
+<JSON>
+"ms:unit": [ {
+    "ms:id": "cc:s3",
+    "ms:address": "s3://commoncraw",
+    "ms:collection": { "ms:ref" : "cc:crawl-data" }
+}, {
+    "ms:id": "cc:http",
+    "ms:address": "https://commoncrawl.s3.amazonaws.com",
+    "ms:collection": { "ms:ref" : "cc:crawl-data" }
+}, {
+    "ms:id": "cc:index",
+    "ms:address": "s3://commoncrawl/cc-index/table/cc-main/warc/"
+} ]
+</JSON>
+
+<p>The <code>address</code> URIs may contain access information,
+like username and password.  There are many URI schemes, see the
+<a href="https://en.wikipedia.org/wiki/List_of_URI_schemes">list of URI
+schemas on Wikipedia</a></p>
+
+<p>The publication alternatives may have different restrictions: access time,
+price, speed, physical location.  And, of course, the client may not
+support some of the offered protocols.</p>
+
+<h2>Collections</h2>
+
+<p>In a <i>publication</i>, you find <i>collections</i>.  Each collection is a
+logically coherent set of products.  You can compare them with directories
+(maps) and archives (tar, zip).  Actually: they are implemented as
+directories and archives!  The academic difference is that a "collection"
+is an abstract notion: a set of data products.  The concept design is
+more important than the implementation details</p>
+
+<XML>
+<ms:unit ms:id="cc:crawl-data">
+  <ms:type>msc:Role.Collection</ms.type>
+  <ms:resource ms:ref="cc:s3">
+    <ms:address>crawl-data/</ms:address>
+  </ms:resource>
+  <ms:resource ms:ref="cc:http">
+    <ms:address>crawl-data/</ms:address>
+  </ms:resource>
+  <ms:collection ms:ref="cc:2020dec-crawl" />
+  <ms:collection ms:ref="cc:2021jan-crawl" />
+  <ms:collection ms:ref="cc:2021feb-crawl" />   <!-- and a hundred more -->
+</ms:unit>
+</XML>
+<JSON>
+"ms:unit": {
+   "ms:type": "msc:Role.Collection",
+   "ms:id": "cc:crawl-data",
+   "ms:resource": [
+     { "ms:ref": "cc:s3",   "ms:address": "crawl_data/" },
+     { "ms:ref": "cc:http", "ms:address": "crawl_data/" } ],
+   "ms:collection": [ 
+     { "ms:ref": "cc:2020dec-crawl" },
+     { "ms:ref": "cc:2021jan-crawl" },
+     { "ms:ref": "cc:2021feb-crawl" } ]
+}
+</JSON>
+
+<p>Collections can contains sub-collections, like a directory can contain
+sub-directories or a zip-file may contain zip-files.  In the example
+above, you can read that each month a separate crawl collection is
+produced as new part in the full collection.</p>
+
+<p>All crawl sets are "replicated" to both publication locations (actually
+they are two interfaces to the same bytes).  In our case, the data found
+on both places is exactly the same.  The client can decide which one to take.
+They may differ in cost, or speed, or protocol support, or jurisdiction of
+the server, or...</p>
+
+<p>It would be possible to have different structures for the same
+data in different collections, or even in the same collection: see the
+<i>product</i> as explained below.</p>
+
+<p>The <code>address</code>es are relative URIs: they are relative to
+the address of the parent collection, or in this case the publication base
+address.  You may use any kind of relative addressing which your URI
+scheme supports, or use absolute addresses.
+Mind that you SHALL put a trailing slash on directories!</p>
+
+<p>The collection refers to the publication, and the publication to the collection:
+you MAY NEED to dynamicly ask the service for missing details, therefore
+this is a double-linked list.  The number of collections is usually
+small compared to the amount of products included in them.</p>
+
+<h2>Sub-collections</h2>
+
+<p>In the case of CommonCrawl publications, each month a bunch of
+different data fragments are produced.  Logically, on web-page can
+be seen as one product.  The logs, extracted text and detected language
+can be seen as parts of that product. Following any Object model, this
+should mimic:</p>
+<PERL>
+$page = $collection->product($some_url);
+print $page->part('log');
+$words = $page->part('text')->word_count;
+</PERL>
+
+<p>It is very well possible you prefer an other structure for products
+and parts.  That are choice you make for your data.</p>
+
+<XML>
+<ms:unit ms:id="cc:2021feb">
+  <ms:type>msc:Role.Collection</ms:type>
+  <ms:resource ms:ref="cc:crawl-data">
+     <ms:address>CC-MAIN-2021-10/</ms:address>
+     <ms:size>62.51T</ms:size>
+  </ms:resource>
+  <ms:has ms:ref="cc:2021feb-crawl" />
+  <ms:has ms:ref="cc:2021feb-metadata" />  <!-- WAT files -->
+  <ms:has ms:ref="cc:2021feb-texts" />     <!-- WET files -->
+</ms:unit>
+</XML>
+<JSON>
+"ms:unit": {
+   "ms:type": "msc:Role.Collection",
+   "ms:id": "cc:2021feb",
+   "ms:resource": {
+       "ms:ref": "cc:crawl-data",
+       "ms:address": "CC-MAIN-2021-10/",
+       "ms:size": "62.51TB"
+   },
+   "ms:unit": [
+     { "ms:ref": "cc:2021feb-crawl" },
+     { "ms:ref": "cc:2021feb-metadata" },
+     { "ms:ref": "cc:2021feb-texts" } ]
+}
+</JSON>
+
+<p>The different parts all have their own sub-collection.  They do
+not need to be published at the same time.  As any structural component,
+you can use <code>version</code>, <code>expires</code> etc to get the
+client to update its cached information about a collection.</p>
+
+<p>The collection may also maintain various useful statistics, like the
+total <code>size</code> of the stored information.  This MAY BE
+static information.</p>
+
+<h2>Directory containing archive files</h2>
+
+<p>On a certain nesting of collections, you will shift from representing
+physical directories into representing packaged product parts (optional).</p>
+<XML>
+<ms:unit ms:id="cc:2021feb-crawl">
+  <ms:type>msc:Role.Collection</ms:type>
+  <ms:packaged ms:ref="cc:2021feb">
+     <ms:address>segments/</ms:address>
+  </ms:packaged>
+  <ms:has ms:ref="cc:202102warc-00000" />
+  <ms:has ms:ref="cc:202102warc-00001" />  <!-- and 78000 more -->
+  <ms:product-count>2.7B</ms:product-count>
+</ms:unit>
+</XML>
+<JSON>
+"ms:unit": {
+  "ms:id": "cc:2021feb-crawl",
+  "ms:type": "msc:Role.Collection",
+  "ms:packaged": {
+       "ms:ref": "cc:2021feb",
+       "ms:address": "segments/"
+   },
+  "ms:has": [
+     { "ms:ref": "cc:202102warc-00000" },
+     { "ms:ref": "cc:202102warc-00001" }
+  ],
+  "ms:product-count": "2.7B"
+}
+</JSON>
+
+<p>The absolute address for this set is already getting quite long
+<code>s3://commoncrawl/crawl-data/CC-MAIN-2021-10/segments/</code></p>
+
+<h2>Archive files with product parts</h2>
+
+<p>Finally something which stores bytes.  However, it's still all
+declarive and abstract.</p>
+
+<XML>
+<ms:unit ms:id="cc:202102warc-00000">
+  <ms:type>msc:Role.Collection</ms:type>
+  <ms:packaged ms:ref="cc:2021feb-crawl">
+     <ms:address>1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz</ms:address>
+     <ms:format>ms:MimeType.application/x-warc.archive</ms:format>
+     <ms:encoded>ms:Algo.GzipMultiStream</ms:encoded>
+     <ms:size>1063809923</ms:size>
+  </ms:packaged>
+</ms:unit>
+</XML>
+<JSON>
+"ms:unit": {
+   "ms:id": "cc:202102warc-00000",
+   "ms:packaged": {
+      "ms:ref": "cc:2021feb-crawl",
+      "ms:address": "1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz",
+      "ms:format": "ms:Mime.application/x-warc.archive",
+      "ms:encoded": "ms:Algo.GzipMultiStream",
+      "ms:size": 1063809923
+   },
+}
+</JSON>
+
+<p>WARC files use extension <code>.warc.gz</code>, but we warned that
+each "record" is separately compressed with gzip.  Each crawled web-page
+produces three records: a metadata, a request, and a response. Probably in
+the same warc file.</p>
+
+<p>You may be tempted to say that there is a meaning to
+<code>cc-s3/crawl-data/2021feb/2021feb-crawl/202102warc-00000</code> but
+there is none: there are multiple paths from data items towards publication
+and they are not equivalent.  The sequence of IDs, and even the IDs should
+not be used anywhere.  All IDs are unique, hence uniquely referencing a
+unit of configuration.</p>
+
+<h2>Products</h2>
+
+<p>Only at the bottom of a collection structure, we find real bytes.  But that's
+not important.  Crucial is that the server has homogeneous units &mdash;items&mdash;
+prepared for the client.  Those logic <code>items</code> collect their knowledge
+from the fastest and cheapest sources, and only when they need to.</p>
+
+<XML>
+<ms:unit ms:id="cc:ASDJKDJO12314A">
+  <ms:name>https://markov.solutions/index.html</ms:name>
+  <ms:created>2021-04-01T09:08:07Z</ms:created>
+  <ms:expires>2021-12-30T12:00:00Z</ms:expires>
+  <ms:has ms:is="cc:Warc.Request"  ms:ref="cc:ASDJKDJO12314A-req"   />
+  <ms:has ms:is="cc:Warc.Response" ms:ref="cc:ASDJKDJO12314A-resp"  />
+  <ms:has ms:is="cc:Warc.Text"     ms:ref="cc:ASDJKDJO12314A-text"  />
+  <ms:has ms:is="cc:Warc.Links"    ms:ref="cc:ASDJKDJO12314A-links" />
+</ms:unit>
+
+<ms:unit ms:id="cc:ASDJKDJO12314A-req">
+  <ms:type>cc:Warc.Request</ms:type>
+  <ms:size>34516</ms:size>
+  <ms:packaged ms:ref="202102warc-00000">
+    <ms:address>#12314151+11515</ms:address>
+    <ms:format>ms:Mime.application/x-warc.record</ms:format>
+  </ms:packaged>
+</ms:unit>
+
+<ms:unit ms:id="cc:ASDJKDJO12314A-req">
+  <ms:type>ms:Warc.Response</ms:type>
+  <ms:size>25257</ms:size>
+  <ms:packaged ms:ref="202102warc-00000">
+    <ms:address>#12325666+23521</ms:address>
+    <ms:format>ms:Mime.application/x-warc.record</ms:format>
+  </ms:resource>
+</ms:unit>
+
+<ms:unit ms:id="cc:ASDJKDJO12314A-text">
+  <ms:type>cc:Warc.Text</ms:type>
+  <ms:size>516</ms:size>
+  <ms:charset>iso-5988-1</ms:charset>
+  <ms:languages>cc:Cdl2-3.Nld 1</ms:languages>
+  <ms:packaged ms:ref="202102wet-368">
+     <ms:address>#3242+2345428</ms:address>
+     <ms:format>ms:Mime.application/x-warc.record</ms:format>
+  </ms:packaged>
+</ms:unit>
+
+<ms:unit ms:id="cc:ASDJKDJO12314A-links">
+   <ms:type>cc:Warc.Links</ms:type>
+   <ms:inlined>
+      <ms:encoded>ms:Algo.Gzip ms:Algo.Base64</ms:encoded>
+      <ms:format>ms:Mime.text/uri-list</ms:format>
+      <ms:blob>
+ewogICAiQ29udGFpbmVyIiA6IHsKICAgICAgIkNvbXByZXNzZWQiIDogdHJ1ZSw
+ZnNldCIgOiAiNjAwOTk3NTgzIiwKICAgICAgIkZpbGVuYW1lIiA6ICJDQy1NQUl
+bnQtTGVuZ3RoIiA6ICIyMDEiCiAgICAgIH0sCiAgICAgICJGb3JtYXQiIDogIld
+fQo=
+      <ms:blob>
+   <ms:inlined>
+</ms:unit>
+</XML>
+<JSON>
+"ms:product": [ {
+  "ms:id": "cc:ASDJKDJO12314A",
+  "ms:name": "https://markov.solutions/index.html",
+  "ms:created": "2021-04-01T09:08:07Z",
+  "ms:expires": "2021-12-30T12:00:00Z",
+  "ms:part": [ {
+      "ms:is": "cc:Request",
+      "ms:ref": "cc:ASDJKDJO12314A-req"
+    }, {
+      "ms:is": "cc:Response",
+      "ms:ref": "cc:ASDJKDJO12314A-resp"
+    }, {
+      "ms:is": "cc:Text",
+      "ms:ref": "cc:ASDJKDJO12314A-text"
+    }, {
+      "ms:is": "cc:Links",
+      "ms:ref": "cc:ASDJKDJO12314A-links"
+    } ]
+  }, {
+    "ms:id": "cc:ASDJKDJO12314A-req",
+    "ms:resource": {
+       "ms:ref": "202102warc-00000",
+       "ms:address": "#12314151+11515",
+       "ms:format": "ms.Mime.application/x-warc.request"
+    },
+    "ms:size": 34516
+  }, {
+    "ms:id": "cc:ASDJKDJO12314A-resp",
+    "ms:resource": {
+       "ms:ref": "202102warc-00000",
+       "ms:address": "#12325666+23521",
+       "ms:format": "ms.Mime.application/x-warc.response"
+    },
+    "ms:size": 25257
+  }, {
+    "ms:id": "cc:ASDJKDJO12314A-text",
+    "ms:resource": {
+       "ms:ref": "202102wet-368",
+       "ms:address": "#3242+2345428",
+       "ms:format": "ms:Mime.application/x-warc.wet"
+    },
+    "ms:size": 516,
+    "ms:charset": "iso-5988-1",
+    "ms:languages": "cc:Cdl2-3.Nld 1"
+  }, {
+    "ms:id": "cc:ASDJKDJO12314A-text",
+    "ms:resource": {
+       "ms:ref": "cc:202102links",
+       "ms:encoded": "ms:Algo.Gzip ms:Algo.Base64",
+       "ms:format": "ms:Mime.text/uri-list"
+    }
+  }
+},
+"ms:publication": {
+   "ms:id": "cc:202102links",
+   "ms:blob": "ewogIC...fQo="
+}
+</JSON>
+
+<p>One url (here used as <code>name</code>) groups raw crawl information,
+extracted text (optional), extracted links, and more.  Be aware that
+these <i>product</i> definitions may come from different collections,
+and hence may only be collected dynamically on demand and in bulk.</p>
+
+<h2>Placement</h2>
+
+<p>The <i>publication</i> and <i>collection</i> definitions are 
+cached over client-server connections, typically for a day.  They will
+usually be put staticly in the service definition.  However, when the
+service is very large (as in this example), they may also be included
+on need-to-know basis.</p>
+
+<p>The <i>products</i> and their parts are provided in response
+to queries.  They are part of the payload, and as such may be
+distributed inlined, or as bulk via publications.</p>

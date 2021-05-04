@@ -1,0 +1,30 @@
+<h1>Roles</h2>
+
+<table>
+<tr><th>unit.type</th><th>Purpose</th></tr>
+<tr><td><code>msc:Role.Collection</code></td>
+    <td>Mainly contains products (units with data managed by other applications).
+        It may contain information how to mirror the data and the meta-data.
+    </td></tr>
+<tr><td><code>msc:Role.Company</code></td>
+    <td>Groups all activities of a juridical entity, like a company, foundation,
+        or person.  It will publish public (anonymized) identities of personnel,
+        and contact information.  Also, it will "open" Stores per activity.</td>
+<tr><td><code>msc:Role.Rules<code></td>
+    <td>Most units have access restrictions: read, create, update, deprecate,
+        expire, and so on, which are specified in a rule-set.
+    </td></tr>
+<tr><td><code>msc:Role.Server</code></td>
+    <td>Main control unit for a Meshy Space instance.  It manages the namespaces
+        which it has registered for companies and people. It implements
+        the life-cycle of the units.
+    </td></tr>
+<tr><td><code>msc:Role.Store</code></td>
+    <td>Groups Collections which relate to one activity of a Company: documentation,
+        input data, output data, actions, history.
+    </td></tr>
+<tr><td><code>msc:Role.Identity</code></td>
+<tr><td><code>msc:Role.Resource</code></td>
+<tr><td><code>msc:Role.Scribe</code></td>
+<tr><td><code>msc:Role.Wallet</code></td>
+</table>

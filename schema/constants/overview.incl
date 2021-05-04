@@ -1,0 +1,9 @@
+<p>All constants in the '<code>msc:</code>' namespace are camel-cased,
+starting with a capital (elements and attributes are lower-cased,
+identifiers full capitals) by convension.</p>
+
+<ul>
+<li><code><a href="roles.html">msc:Role.</a></code> constants are
+    <code>unit.type</code>s which play a role in the Meshy Space
+    Concept.</li>
+</ul>
