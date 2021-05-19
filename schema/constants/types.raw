@@ -14,14 +14,14 @@ explain the role of the unit in the concept.</p>
 
 <dt><code>msc:Type.Company</code></dt>
 <dd>Groups all activities of a legal entity, like a company, foundation,
-    or person.  It will publish public (anonymized) identities of personnel,
+    or person.  It MAY publish public (anonymized) identities of personnel,
     and contact information.  Also, it will "open" Stores per main activity.
-    Deparments are Companies contained inside other Companies.
+    Departments are Companies contained inside other Companies.
 </dd>
 
 <dt><code>msc:Type.Identity</code></dt>
-<dd>This represents a public view of a person, company or organisation.
-    As a person, you may want to create many Identities, for verious
+<dd>This represents a public view of a person, company or organization.
+    As a person, you may want to create many Identities, for various
     roles you have in society.  When an Identity contains other Identities,
     it behaves like a group.  Even system processes have identities, which
     allow them to sign their processing results.
@@ -31,10 +31,10 @@ explain the role of the unit in the concept.</p>
 <dt><code>msc:Type.Resource</code></dt>
 <dd>Describes to get to data storage.  The data is octets which are probably
     packed and compressed.  It may be part of a larger resource.
-    (Computer people call Resources "files", "archives" or "zips")
+    (Computer people call Resources "files", "archives", "urls", or "zips")
 </dd>
 
-<dt><code>msc:Type.Rules<code></dt>
+<dt><code>msc:Type.Rules</code></dt>
 <dd>Most units have access restrictions: read, create, update, deprecate,
     expire, and so on, which are specified in a rule-set.
     (Computer people call this "permissions" or "access control lists")
@@ -44,7 +44,10 @@ explain the role of the unit in the concept.</p>
 <dd>Configuration of Collection management process, as executed by the
     Town hall.  Each Scribe needs to run often, RECOMMENDED at least every
     hour.  But it is also used to retrieve units from remove Towns.  It
-    implements the unit's life-cycle.
+    implements the unit's life-cycle.  Scribes are automatically created
+    when you go to a Town you have not visited before.  Then, they can
+    be fine-tuned.
+    (Computer people call Scribes "rsync scripts" or "wget")
 </dd>
 
 <dt><code>msc:Type.Store</code></dt>

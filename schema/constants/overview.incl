@@ -1,11 +1,11 @@
 <p>All constants in the '<code>msc:</code>' namespace are camel-cased,
 starting with a capital (elements and attributes are lower-cased,
-identifiers full capitals) by convension.</p>
+identifiers full capitals) by convention.</p>
 
 <ul>
 <li><code><a href="roles.html">msc:Role.</a></code> constants
     express the role the relation has to some other object.  For instance,
-    a unit type "Indentity" can play role "Owner".
+    a unit type "Identity" can play role "Owner".
     </li>
 
 <li><code><a href="types.html">msc:Type.</a></code> constants are

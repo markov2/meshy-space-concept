@@ -1,4 +1,4 @@
-<h1>ROles</h1>
+<h1>Roles</h1>
 
 <p>Meshy Space base object <SCHEMA>ms:unit</SCHEMA> <SCHEMA>ms:has</SCHEMA>
 many relations.  The client MAY understand these relations: some are
@@ -30,15 +30,23 @@ runtime.</p>
     contain Stores.
 </dd>
 
-<dt><code>msc:Role.Creator</code></dt>
+<dt><code>msc:Role.Author</code></dt>
 <dd>Refers to a <code>msc:Type.Identity</code>.
-    Who or which process has created the payload for this unit.  Although
-    optional, this may be very useful for debugging.  It is also required
-    for licenses to be active.  Defaults to the Creator of the parent.
+    Who or which process has created the payload for this unit (may be more
+    than one).  Although optional, this may be very useful for debugging.
+    It is also required for licenses to be active.  Defaults to the
+    Creator of the parent.
+</dd>
+
+<dt><code>msc:Role.Breaks</code></dt>
+<dd>Signals that the application of this unit will break the application
+    of other units, when they are in use in your environment.  Administrator
+    intervention or a <code>--force</code> may be needed to decide whether
+    to proceed.
 </dd>
 
 <dt><code>msc:Role.Follows</code></dt>
-<dd>This unit is a logical follow-up of the refered unit(s).  For
+<dd>This unit is a logical follow-up of the referred unit(s).  For
     instance, a previous document version or a previous software
     release.<br />
     The unit's <SCHEMA>ms:revision</SCHEMA> is not to be used to manage
@@ -60,11 +68,15 @@ runtime.</p>
 <dt><code>msc:Role.Publisher</code></dt>
 <dd>Refers to a <code>msc:Type.Identity</code>.
     Who or which process has connected this unit to its parent: has made
-    this unit visible.
+    this unit visible.<br>
+    Units MAY get re-published: have more than one Publisher.  For instance,
+    when someone feels that they need to be repackaged, signed with a
+    stronger algorithm, and so on.  In such case, it is RECOMMENDED to keep
+    reference to the original Publisher.
 </dd>
 
 <dt><code>msc:Role.Replaces</code><dt>
-<dd>A bit stronger than simply 'Follows': the receiving party is adviced
+<dd>A bit stronger than simply 'Follows': the receiving party is advised
     to remove the other unit when it is in use.  What will need to happen
     to achieve it, is outside the scope of Meshy Space (unless the unit
     is a <code>msc:Type.</code>)
