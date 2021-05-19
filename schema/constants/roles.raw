@@ -1,30 +1,97 @@
-<h1>Roles</h2>
+<h1>ROles</h1>
 
-<table>
-<tr><th>unit.type</th><th>Purpose</th></tr>
-<tr><td><code>msc:Role.Collection</code></td>
-    <td>Mainly contains products (units with data managed by other applications).
-        It may contain information how to mirror the data and the meta-data.
-    </td></tr>
-<tr><td><code>msc:Role.Company</code></td>
-    <td>Groups all activities of a juridical entity, like a company, foundation,
-        or person.  It will publish public (anonymized) identities of personnel,
-        and contact information.  Also, it will "open" Stores per activity.</td>
-<tr><td><code>msc:Role.Rules<code></td>
-    <td>Most units have access restrictions: read, create, update, deprecate,
-        expire, and so on, which are specified in a rule-set.
-    </td></tr>
-<tr><td><code>msc:Role.Server</code></td>
-    <td>Main control unit for a Meshy Space instance.  It manages the namespaces
-        which it has registered for companies and people. It implements
-        the life-cycle of the units.
-    </td></tr>
-<tr><td><code>msc:Role.Store</code></td>
-    <td>Groups Collections which relate to one activity of a Company: documentation,
-        input data, output data, actions, history.
-    </td></tr>
-<tr><td><code>msc:Role.Identity</code></td>
-<tr><td><code>msc:Role.Resource</code></td>
-<tr><td><code>msc:Role.Scribe</code></td>
-<tr><td><code>msc:Role.Wallet</code></td>
+<p>Meshy Space base object <SCHEMA>ms:unit</SCHEMA> <SCHEMA>ms:has</SCHEMA>
+many relations.  The client MAY understand these relations: some are
+simply "products" of applications which are not to be interpreted by
+Meshy Space itself, some are implementing the Meshy Space Concept.  That
+is a namespace thingy.</p>
+
+<p>The <code>is</code> attribute of the <SCHEMA>ms:has</SCHEMA> elements
+in a <SCHEMA>ms:unit</SCHEMA> describe the relation.  When that value
+is in the <code>ms:</code> namespace, you will find it described below.
+It refers to a unit of one or more types, which are only checked at
+runtime.</p>
+
+<dl>
+<dt><code>msc:Role.BasedOn</code></dt>
+<dd>To be able to produce this unit, other units where used.  For instance,
+    when this is compiled code, it may refer to the source code.  It may
+    also refer to units which describe the configuration of tools which were
+    used, or servers where the production was run.<br />
+    It MAY be useful to inspect the units where your parent is based on.
+</dd>
+
+<dt><code>msc:Role.Contains</code></dt>
+<dd>The reverse of the <code>parent</code> relation: it may refer to itself,
+    or to units one level lower in the data structure defined by the
+    <i>Concept</i>.<br />
+    For instance, a unit of type <code>msc:Role.Collection</code>
+    contains Collection sub-sets, but also Products and Actions.  It will not
+    contain Stores.
+</dd>
+
+<dt><code>msc:Role.Creator</code></dt>
+<dd>Refers to a <code>msc:Type.Identity</code>.
+    Who or which process has created the payload for this unit.  Although
+    optional, this may be very useful for debugging.  It is also required
+    for licenses to be active.  Defaults to the Creator of the parent.
+</dd>
+
+<dt><code>msc:Role.Follows</code></dt>
+<dd>This unit is a logical follow-up of the refered unit(s).  For
+    instance, a previous document version or a previous software
+    release.<br />
+    The unit's <SCHEMA>ms:revision</SCHEMA> is not to be used to manage
+    releases: the newest revision is the <i>only</i> valid state of the
+    unit.  There are no parallel unit revisions in the same space.<br />
+    It is the client's choice whether takes an action when it receives a 
+    unit which follows some other unit.  A deprecation of the previous
+    version may happen soon to force actions.
+</dd>
+
+<dt><code>msc:Role.Owner</code></dt>
+<dd>Refers to a <code>msc:Type.Identity</code>.
+    The owner, possibly more than one, has special access rules
+    to the unit.  This defaults to the owner(s) of the parent
+    unit.  Either you list all owners, or use the default: you cannot
+    selectively take a sub-set of owners of the parent.
+</dd>
+
+<dt><code>msc:Role.Publisher</code></dt>
+<dd>Refers to a <code>msc:Type.Identity</code>.
+    Who or which process has connected this unit to its parent: has made
+    this unit visible.
+</dd>
+
+<dt><code>msc:Role.Replaces</code><dt>
+<dd>A bit stronger than simply 'Follows': the receiving party is adviced
+    to remove the other unit when it is in use.  What will need to happen
+    to achieve it, is outside the scope of Meshy Space (unless the unit
+    is a <code>msc:Type.</code>)
+</dd>
+
+<dt><code>msc:Role.Requires</code><dt>
+<dd>Used to optimize the exchange of units: inform the client to request
+    for other units before attempting to use the content of this unit.
+    (Expect bi-directional dependencies).  The requirements may refer to
+    software configurations or system names.<br>
+    The <code>when</code> attribute of the <SCHEMA>ms:has</SCHEMA>
+    relation may help you in very convenient ways.
+</dd>
+
+<dt><code>msc:Role.Rules</code></dt>
+<dd>Refers to <code>msc:Type.Rules</code>.
+    Defaults to the rules of the parent unit.  The referred
+    rule-set describes who can access which relations, and who can
+    take which actions on the unit.  One unit SHALL have no more than
+    one rule relation, but rule role units MAY be nested.
+</dd>
+
+<dt><code>msc:Role.Wallet</code></dt>
+<dd>Refers to <code>msc:Type.Collection</code>, which contains the
+    secret components of your Identities.  The Rules of a Wallet are
+    by default more strict than for normal collections.  It is crucial
+    enough to give such collection its own Role.
+</dd>
+
 </table>

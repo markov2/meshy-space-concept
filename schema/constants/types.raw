@@ -1,0 +1,62 @@
+<h1>Types</h2>
+
+<p>The Meshy Space base object <SCHEMA>ms:unit</SCHEMA> is extremely flexible,
+but not expressive.  The <i>Concept</i> defines (mime like) types of units, which
+explain the role of the unit in the concept.</p>
+
+<p>At the moment, these are the types you can expect: (sorted alphabetically)</p>
+<dl>
+<dt><code>msc:Type.Collection</code></dt>
+<dd>Mainly contains products (units with data managed by other applications).
+    It may contain information how to mirror the data and the meta-data.
+    (Computer people call Collections "directories" or "Drive")
+</dd>
+
+<dt><code>msc:Type.Company</code></dt>
+<dd>Groups all activities of a legal entity, like a company, foundation,
+    or person.  It will publish public (anonymized) identities of personnel,
+    and contact information.  Also, it will "open" Stores per main activity.
+    Deparments are Companies contained inside other Companies.
+</dd>
+
+<dt><code>msc:Type.Identity</code></dt>
+<dd>This represents a public view of a person, company or organisation.
+    As a person, you may want to create many Identities, for verious
+    roles you have in society.  When an Identity contains other Identities,
+    it behaves like a group.  Even system processes have identities, which
+    allow them to sign their processing results.
+    (Computer people call Identities usually "login" or "certificate").
+</dd>
+
+<dt><code>msc:Type.Resource</code></dt>
+<dd>Describes to get to data storage.  The data is octets which are probably
+    packed and compressed.  It may be part of a larger resource.
+    (Computer people call Resources "files", "archives" or "zips")
+</dd>
+
+<dt><code>msc:Type.Rules<code></dt>
+<dd>Most units have access restrictions: read, create, update, deprecate,
+    expire, and so on, which are specified in a rule-set.
+    (Computer people call this "permissions" or "access control lists")
+</dd>
+
+<dt><code>msc:Type.Scribe</code></dt>
+<dd>Configuration of Collection management process, as executed by the
+    Town hall.  Each Scribe needs to run often, RECOMMENDED at least every
+    hour.  But it is also used to retrieve units from remove Towns.  It
+    implements the unit's life-cycle.
+</dd>
+
+<dt><code>msc:Type.Store</code></dt>
+<dd>Groups Collections which relate to one activity of a Company: documentation,
+    input data, output data, actions, history.
+    (Computer people call Stores "disk", "mirrors" or "shares")
+</dd>
+
+<dt><code>msc:Type.Town</code></dt>
+<dd>Main control unit for a Meshy Space instance.  It manages multiple
+    namespaces which it has registered for companies and people.
+    It implements the life-cycle of the units.  The Town contains Stores.
+    (Computer people call Towns confusingly "servers")
+</dd>
+</dl>
