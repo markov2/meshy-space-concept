@@ -3,13 +3,14 @@
 =schema
 
 ==xml
-<element name="collection" type="ms:_collection" substitutionGroup="ms:native">
-  <complexType>
-    <complexContent>
-      <extension base="ms:_native" />
-    </complexContent>
-  </complexType>
-</element>
+<element name="collection" type="ms:Collection"
+   substitutionGroup="ms:native" />
+
+<complexType name="Collection">
+  <complexContent>
+    <extension base="ms:Native" />
+  </complexContent>
+</complexType>
 ==end
 
 =description
@@ -23,24 +24,14 @@ location of the bytes in the collection, but fetching them usually is
 a multi-stage task peeling off layers of collections, like union rings
 at run-time.</p>
 
-=element resource
-
-<p>The <code>address</code> of the <SCHEMA>ms:resource</SCHEMA>
-element refers to the <SCHEMA>ms:store</SCHEMA>
-where this collection is located, or its parent <code>collection</code>.
-
-=element collection
-
-<p>The current <code>collection</code> may have sub-sets, which are
-also collections.</p>
-
-<p>Your sub-set may also be a sub-set of other collections or stores.</p>
+<p>The collection (unit) may have sub-sets, which are also collections.
+Your sub-set may also be a sub-set of other collections or stores.</p>
 
 =example collection
 
 ==xml
 <ms:unit ms:id="cc:crawl-data">
-  <ms:type>msc:Role.Collection</ms:type>
+  <ms:type>msc:Role/Collection</ms:type>
   <ms:resource ms:ref="cc:s3">
      <ms:address>crawl-data</ms:address>
   </ms:in>

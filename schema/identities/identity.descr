@@ -3,38 +3,38 @@
 =schema
 
 ==xml
-<element name="identity" substitutionGroup="ms:native">
-  <complexType>
-    <complexContent>
-      <extension base="ms:_native">
-        <sequence>
-          <element name="nickname"    type="string" minOccurs="0" />
-          <element name="date-birth"  type="date"   minOccurs="0" />
-          <element name="gender"      type="ms:constant" default="ms:Gender.Undisclosed" />
-          <element name="nationality" type="ms:constant" minOccurs="0" maxOccurs="unbounded" />
-          <element name="phone"       type="string" minOccurs="0" />
-          <element name="email"       type="string" minOccurs="0" />
-          <element name="street"      type="string" minOccurs="0" />
-          <element name="postal-code" type="string" minOccurs="0" />
-          <element name="city"        type="string" minOccurs="0" />
-          <element name="country"     type="string" minOccurs="0" />
-        </sequence>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
+<element name="identity" type="ms:Identity"
+   substitutionGroup="ms:native" />
+
+<complexType name="Identity">
+  <complexContent>
+    <extension base="ms:Native">
+      <sequence>
+        <element name="nickname"    type="token" minOccurs="0" />
+        <element name="date-birth"  type="date"   minOccurs="0" />
+        <element name="gender"      type="ms:Constant" default="msc:Gender/Undisclosed" />
+        <element name="nationality" type="ms:Constant" minOccurs="0" maxOccurs="unbounded" />
+        <element name="phone"       type="token" minOccurs="0" />
+        <element name="email"       type="token" minOccurs="0" />
+        <element name="street"      type="token" minOccurs="0" />
+        <element name="postal-code" type="token" minOccurs="0" />
+        <element name="city"        type="token" minOccurs="0" />
+        <element name="country"     type="token" minOccurs="0" />
+      </sequence>
+    </extension>
+  </complexContent>
+</complexType>
 ==end
 
 =example Some user
 
 =element gender
-ms:Gender.Male
-ms:Gender.Female
-ms:Gender.Other
-ms:Gender.Undisclosed
-ms:Gender.Unknown
+
+<p>See the <SCHEMA>ms:Gender/</SCHEMA> for the gender constants.</a></p>
 
 =element nationality
-ms:Country.NL   # iso
+
+<p>Nationalities refer to countries, which are represented by the constants
+in <SCHEMA>ms:Country/</SCHEMA></p>
 
 =element phone

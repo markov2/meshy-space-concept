@@ -40,24 +40,24 @@ The third is very different (and not specified in this example)</p>
 The configuration is part of the store definition:</p>
 <XML>
 <ms:unit ms:id="https://commoncrawl.org">
-  <ms:type>msc:Role.Store</ms:type>
-  <ms:has ms:ref="cc:s3"    ms:is="msc:Role.Collection" />
-  <ms:has ms:ref="cc:http"  ms:is="msc:Role.Collection" />
-  <ms:has ms:ref="cc:index" ms:is="msc:Role.Collection" />
+  <ms:type>msc:Role/Store</ms:type>
+  <ms:has ms:ref="cc:s3"    ms:is="msc:Role/Collection" />
+  <ms:has ms:ref="cc:http"  ms:is="msc:Role/Collection" />
+  <ms:has ms:ref="cc:index" ms:is="msc:Role/Collection" />
 </ms:unit>
 <ms:unit ms:id="cc:s3">
-  <ms:type="msc:Role.Resource">
+  <ms:type="msc:Role/Resource">
   <ms:resource>
      <ms:address>s3://commoncrawl</ms:address>
   </ms:resource>
-  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role.Collection" />
+  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role/Collection" />
 </ms:unit>
 <ms:unit ms:id="cc:http">
-  <ms:type="msc:Role.Resource">
+  <ms:type="msc:Role/Resource">
   <ms:resource>
      <ms:address>https://commoncrawl.s3.amazonaws.com</ms:address>
   </ms:resource>
-  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role.Collection" />
+  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role/Collection" />
 </ms:unit>
 <ms:unit ms:id="cc:index">
   <ms:address>s3://commoncrawl/cc-index/table/cc-main/warc/</ms:address>
@@ -98,7 +98,7 @@ more important than the implementation details</p>
 
 <XML>
 <ms:unit ms:id="cc:crawl-data">
-  <ms:type>msc:Role.Collection</ms.type>
+  <ms:type>msc:Role/Collection</ms.type>
   <ms:resource ms:ref="cc:s3">
     <ms:address>crawl-data/</ms:address>
   </ms:resource>
@@ -112,7 +112,7 @@ more important than the implementation details</p>
 </XML>
 <JSON>
 "ms:unit": {
-   "ms:type": "msc:Role.Collection",
+   "ms:type": "msc:Role/Collection",
    "ms:id": "cc:crawl-data",
    "ms:resource": [
      { "ms:ref": "cc:s3",   "ms:address": "crawl_data/" },
@@ -168,7 +168,7 @@ and parts.  That are choice you make for your data.</p>
 
 <XML>
 <ms:unit ms:id="cc:2021feb">
-  <ms:type>msc:Role.Collection</ms:type>
+  <ms:type>msc:Role/Collection</ms:type>
   <ms:resource ms:ref="cc:crawl-data">
      <ms:address>CC-MAIN-2021-10/</ms:address>
      <ms:size>62.51T</ms:size>
@@ -180,7 +180,7 @@ and parts.  That are choice you make for your data.</p>
 </XML>
 <JSON>
 "ms:unit": {
-   "ms:type": "msc:Role.Collection",
+   "ms:type": "msc:Role/Collection",
    "ms:id": "cc:2021feb",
    "ms:resource": {
        "ms:ref": "cc:crawl-data",
@@ -209,7 +209,7 @@ static information.</p>
 physical directories into representing packaged product parts (optional).</p>
 <XML>
 <ms:unit ms:id="cc:2021feb-crawl">
-  <ms:type>msc:Role.Collection</ms:type>
+  <ms:type>msc:Role/Collection</ms:type>
   <ms:packaged ms:ref="cc:2021feb">
      <ms:address>segments/</ms:address>
   </ms:packaged>
@@ -221,7 +221,7 @@ physical directories into representing packaged product parts (optional).</p>
 <JSON>
 "ms:unit": {
   "ms:id": "cc:2021feb-crawl",
-  "ms:type": "msc:Role.Collection",
+  "ms:type": "msc:Role/Collection",
   "ms:packaged": {
        "ms:ref": "cc:2021feb",
        "ms:address": "segments/"
@@ -244,11 +244,11 @@ declarive and abstract.</p>
 
 <XML>
 <ms:unit ms:id="cc:202102warc-00000">
-  <ms:type>msc:Role.Collection</ms:type>
+  <ms:type>msc:Role/Collection</ms:type>
   <ms:packaged ms:ref="cc:2021feb-crawl">
      <ms:address>1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz</ms:address>
-     <ms:format>ms:MimeType.application/x-warc.archive</ms:format>
-     <ms:encoded>ms:Algo.GzipMultiStream</ms:encoded>
+     <ms:format>ms:MimeType/application/x-warc.archive</ms:format>
+     <ms:encoded>ms:Algo/GzipMultiStream</ms:encoded>
      <ms:size>1063809923</ms:size>
   </ms:packaged>
 </ms:unit>
@@ -259,8 +259,8 @@ declarive and abstract.</p>
    "ms:packaged": {
       "ms:ref": "cc:2021feb-crawl",
       "ms:address": "1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz",
-      "ms:format": "ms:Mime.application/x-warc.archive",
-      "ms:encoded": "ms:Algo.GzipMultiStream",
+      "ms:format": "ms:Mime/application/x-warc.archive",
+      "ms:encoded": "ms:Algo/GzipMultiStream",
       "ms:size": 1063809923
    },
 }
@@ -301,7 +301,7 @@ from the fastest and cheapest sources, and only when they need to.</p>
   <ms:size>34516</ms:size>
   <ms:packaged ms:ref="202102warc-00000">
     <ms:address>#12314151+11515</ms:address>
-    <ms:format>ms:Mime.application/x-warc.record</ms:format>
+    <ms:format>ms:Mime/application/x-warc.record</ms:format>
   </ms:packaged>
 </ms:unit>
 
@@ -310,7 +310,7 @@ from the fastest and cheapest sources, and only when they need to.</p>
   <ms:size>25257</ms:size>
   <ms:packaged ms:ref="202102warc-00000">
     <ms:address>#12325666+23521</ms:address>
-    <ms:format>ms:Mime.application/x-warc.record</ms:format>
+    <ms:format>ms:Mime/application/x-warc.record</ms:format>
   </ms:resource>
 </ms:unit>
 
@@ -321,15 +321,15 @@ from the fastest and cheapest sources, and only when they need to.</p>
   <ms:languages>cc:Cdl2-3.Nld 1</ms:languages>
   <ms:packaged ms:ref="202102wet-368">
      <ms:address>#3242+2345428</ms:address>
-     <ms:format>ms:Mime.application/x-warc.record</ms:format>
+     <ms:format>ms:Mime/application/x-warc.record</ms:format>
   </ms:packaged>
 </ms:unit>
 
 <ms:unit ms:id="cc:ASDJKDJO12314A-links">
    <ms:type>cc:Warc.Links</ms:type>
    <ms:inlined>
-      <ms:encoded>ms:Algo.Gzip ms:Algo.Base64</ms:encoded>
-      <ms:format>ms:Mime.text/uri-list</ms:format>
+      <ms:encoded>ms:Algo/Gzip ms:Algo/Base64</ms:encoded>
+      <ms:format>ms:Mime/text/uri-list</ms:format>
       <ms:blob>
 ewogICAiQ29udGFpbmVyIiA6IHsKICAgICAgIkNvbXByZXNzZWQiIDogdHJ1ZSw
 ZnNldCIgOiAiNjAwOTk3NTgzIiwKICAgICAgIkZpbGVuYW1lIiA6ICJDQy1NQUl
@@ -363,7 +363,7 @@ fQo=
     "ms:resource": {
        "ms:ref": "202102warc-00000",
        "ms:address": "#12314151+11515",
-       "ms:format": "ms.Mime.application/x-warc.request"
+       "ms:format": "ms.Mime/application/x-warc.request"
     },
     "ms:size": 34516
   }, {
@@ -371,7 +371,7 @@ fQo=
     "ms:resource": {
        "ms:ref": "202102warc-00000",
        "ms:address": "#12325666+23521",
-       "ms:format": "ms.Mime.application/x-warc.response"
+       "ms:format": "ms.Mime/application/x-warc.response"
     },
     "ms:size": 25257
   }, {
@@ -379,7 +379,7 @@ fQo=
     "ms:resource": {
        "ms:ref": "202102wet-368",
        "ms:address": "#3242+2345428",
-       "ms:format": "ms:Mime.application/x-warc.wet"
+       "ms:format": "ms:Mime/application/x-warc.wet"
     },
     "ms:size": 516,
     "ms:charset": "iso-5988-1",
@@ -388,8 +388,8 @@ fQo=
     "ms:id": "cc:ASDJKDJO12314A-text",
     "ms:resource": {
        "ms:ref": "cc:202102links",
-       "ms:encoded": "ms:Algo.Gzip ms:Algo.Base64",
-       "ms:format": "ms:Mime.text/uri-list"
+       "ms:encoded": "ms:Algo/Gzip ms:Algo/Base64",
+       "ms:format": "ms:Mime/text/uri-list"
     }
   }
 },

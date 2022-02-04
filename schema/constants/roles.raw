@@ -1,19 +1,16 @@
 <h1>Roles</h1>
 
-<p>Meshy Space base object <SCHEMA>ms:unit</SCHEMA> <SCHEMA>ms:has</SCHEMA>
-many relations.  The client MAY understand these relations: some are
-simply "products" of applications which are not to be interpreted by
-Meshy Space itself, some are implementing the Meshy Space Concept.  That
-is a namespace thingy.</p>
+<p>Meshy Space base object <SCHEMA>ms:unit</SCHEMA> has many relations.
+The client MAY understand these relations.  The relations have a Role,
+and end in a unit of a certain <a href="types.html">Type</a>.
+See also the <a href="/schemas/base/constants/roles.html">base Roles</a>.</p>
 
 <p>The <code>is</code> attribute of the <SCHEMA>ms:has</SCHEMA> elements
 in a <SCHEMA>ms:unit</SCHEMA> describe the relation.  When that value
-is in the <code>ms:</code> namespace, you will find it described below.
-It refers to a unit of one or more types, which are only checked at
-runtime.</p>
+is in the <code>msc:</code> namespace, you will find it described below.</p>
 
 <dl>
-<dt><code>msc:Role.BasedOn</code></dt>
+<dt><code>msc:Role/BasedOn</code></dt>
 <dd>To be able to produce this unit, other units where used.  For instance,
     when this is compiled code, it may refer to the source code.  It may
     also refer to units which describe the configuration of tools which were
@@ -21,31 +18,31 @@ runtime.</p>
     It MAY be useful to inspect the units where your parent is based on.
 </dd>
 
-<dt><code>msc:Role.Contains</code></dt>
+<dt><code>msc:Role/Contains</code></dt>
 <dd>The reverse of the <code>parent</code> relation: it may refer to itself,
     or to units one level lower in the data structure defined by the
     <i>Concept</i>.<br />
-    For instance, a unit of type <code>msc:Role.Collection</code>
+    For instance, a unit of type <code>msc:Role/Collection</code>
     contains Collection sub-sets, but also Products and Actions.  It will not
     contain Stores.
 </dd>
 
-<dt><code>msc:Role.Author</code></dt>
-<dd>Refers to a <code>msc:Type.Identity</code>.
+<dt><code>msc:Role/Author</code></dt>
+<dd>Refers to a <code>msc:Type/Identity</code>.
     Who or which process has created the payload for this unit (may be more
     than one).  Although optional, this may be very useful for debugging.
     It is also required for licenses to be active.  Defaults to the
     Creator of the parent.
 </dd>
 
-<dt><code>msc:Role.Breaks</code></dt>
+<dt><code>msc:Role/Breaks</code></dt>
 <dd>Signals that the application of this unit will break the application
     of other units, when they are in use in your environment.  Administrator
     intervention or a <code>--force</code> may be needed to decide whether
     to proceed.
 </dd>
 
-<dt><code>msc:Role.Follows</code></dt>
+<dt><code>msc:Role/Follows</code></dt>
 <dd>This unit is a logical follow-up of the referred unit(s).  For
     instance, a previous document version or a previous software
     release.<br />
@@ -57,16 +54,16 @@ runtime.</p>
     version may happen soon to force actions.
 </dd>
 
-<dt><code>msc:Role.Owner</code></dt>
-<dd>Refers to a <code>msc:Type.Identity</code>.
+<dt><code>msc:Role/Owner</code></dt>
+<dd>Refers to a <code>msc:Type/Identity</code>.
     The owner, possibly more than one, has special access rules
     to the unit.  This defaults to the owner(s) of the parent
     unit.  Either you list all owners, or use the default: you cannot
     selectively take a sub-set of owners of the parent.
 </dd>
 
-<dt><code>msc:Role.Publisher</code></dt>
-<dd>Refers to a <code>msc:Type.Identity</code>.
+<dt><code>msc:Role/Publisher</code></dt>
+<dd>Refers to a <code>msc:Type/Identity</code>.
     Who or which process has connected this unit to its parent: has made
     this unit visible.<br>
     Units MAY get re-published: have more than one Publisher.  For instance,
@@ -75,14 +72,14 @@ runtime.</p>
     reference to the original Publisher.
 </dd>
 
-<dt><code>msc:Role.Replaces</code><dt>
+<dt><code>msc:Role/Replaces</code><dt>
 <dd>A bit stronger than simply 'Follows': the receiving party is advised
     to remove the other unit when it is in use.  What will need to happen
     to achieve it, is outside the scope of Meshy Space (unless the unit
-    is a <code>msc:Type.</code>)
+    is a <code>msc:Type/</code>)
 </dd>
 
-<dt><code>msc:Role.Requires</code><dt>
+<dt><code>msc:Role/Requires</code><dt>
 <dd>Used to optimize the exchange of units: inform the client to request
     for other units before attempting to use the content of this unit.
     (Expect bi-directional dependencies).  The requirements may refer to
@@ -91,19 +88,20 @@ runtime.</p>
     relation may help you in very convenient ways.
 </dd>
 
-<dt><code>msc:Role.Rules</code></dt>
-<dd>Refers to <code>msc:Type.Rules</code>.
+<dt><code>msc:Role/Rules</code></dt>
+<dd>Refers to <code>msc:Type/Rules</code>.
     Defaults to the rules of the parent unit.  The referred
     rule-set describes who can access which relations, and who can
     take which actions on the unit.  One unit SHALL have no more than
     one rule relation, but rule role units MAY be nested.
 </dd>
 
-<dt><code>msc:Role.Wallet</code></dt>
-<dd>Refers to <code>msc:Type.Collection</code>, which contains the
+<dt><code>msc:Role/Wallet</code></dt>
+<dd>Refers to <code>msc:Type/Collection</code>, which contains the
     secret components of your Identities.  The Rules of a Wallet are
     by default more strict than for normal collections.  It is crucial
     enough to give such collection its own Role.
 </dd>
+</dl>
 
 </table>

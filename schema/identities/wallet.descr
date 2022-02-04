@@ -1,18 +1,19 @@
 =short
 
-<p>The <i>wallet</i> is used to collect things do not want to share with other
-people, for instance your private keys.
+<p>Collect things do not want to share with other people, for instance
+your private keys.</p>
 
 =schema
 
 ==xml
-<element name="wallet" substitutionGroup="ms:native">
-  <complexType>
-    <complexContent>
-      <extension base="ms:_native" />
-    </complexContent>
-  </complexType>
-</element>
+<element name="wallet" type="ms:Wallet"
+    substitutionGroup="ms:native" />
+
+<complexType name="Wallet">
+  <complexContent>
+    <extension base="ms:Native" />
+  </complexContent>
+</complexType>
 ==end
 
 =description

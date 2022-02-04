@@ -1,6 +1,6 @@
 =short
 
-<p>Units of type <code>msc:Role.Store</code> contain the
+<p>Units of type <code>msc:Role/Store</code> contain the
 <code>msc:store</code> element as payload.  It combines everything what
 has to do with one "company entitiy".  It groups, searching, processing,
 uploading, and downloading of data.</p>
@@ -8,12 +8,12 @@ uploading, and downloading of data.</p>
 =schema
 
 ==xml
-<element name="store" type="_store" substitutionGroup="ms:native" />
+<element name="store" type="Store"
+    substitutionGroup="ms:native" />
 
-<complexType name="_store">
+<complexType name="Store">
   <complexContent>
-    <extension base="ms:_native">
-    </extension>
+    <extension base="ms:Native" />
   </complexContent>
 </complexType>
 ==end
@@ -49,9 +49,9 @@ parts and values:</p>
     See <SCHEMA>ms:jurisdiction</SCHEMA>.
 <dt>Indentities of users</dt>
 <dd><SCHEMA>ms:identity</SCHEMA> units, which are used for
-    <code>msc:Role.Access</code></dd>
-    <code>msc:Role.Publisher</code></dd>
-    <code>msc:Role.Owner</code></dd>
+    <code>msc:Role/Access</code></dd>
+    <code>msc:Role/Publisher</code></dd>
+    <code>msc:Role/Owner</code></dd>
 <dt>Definitions of servers</dt>
 <dd>The <SCHEMA>ms:server</SCHEMA> descriptions, which are used
     to communicate with the customers.  The collections will
@@ -61,16 +61,16 @@ parts and values:</p>
 =example Companies owning stores
 
 <XML>
-<ms:unit ms:id="mine:Company" ms:type="msc:Role.Store">
-  <ms:part ms:ref="mine:Store.Amsterdam" ms:type="msc:Role.Store" />
-  <ms:part ms:ref="mine:Store.NewYork"   ms:type="msc:Role.Store" />
+<ms:unit ms:id="mine:Company" ms:type="msc:Role/Store">
+  <ms:part ms:ref="mine:Store/Utrecht" ms:type="msc:Role/Store" />
+  <ms:part ms:ref="mine:Store/NewYork" ms:type="msc:Role/Store" />
 </ms:unit>
-<ms:unit ms:id="mine:Store.Amsterdam" ms:type="msc:Role.Store">
-  <ms:unit ms:ref="mine:Coll.shoes"    ms:type="msc:Role.Collection" />
-  <ms:unit ms:ref="mine:Coll.sneakers" ms:type="msc:Role.Collection" />
+<ms:unit ms:id="mine:Store.Amsterdam" ms:type="msc:Role/Store">
+  <ms:unit ms:ref="mine:Sell/shoes"    ms:type="msc:Role/Collection" />
+  <ms:unit ms:ref="mine:Sell/sneakers" ms:type="msc:Role/Collection" />
 </ms:unit>
-<ms:unit ms:id="mine:Store.Amsterdam" ms:type="msc:Role.Store">
-  <ms:part ms:ref="mine:Coll.sneakers" ms:type="msc:Role.Collection" />
+<ms:unit ms:id="mine:Store/Amsterdam" ms:type="msc:Role/Store">
+  <ms:part ms:ref="mine:Sell/sneakers" ms:type="msc:Role/Collection" />
 </ms:unit>
 </XML>
 
@@ -83,22 +83,3 @@ useful, but that makes the data harder to maintain.</p>
 
 <p>Remember that you are totally free in the allocations of ids in your
 own namespace (in the example <code>mine:</code>).</p>
-
-=example Creating a catalog of Stores
-
-<p>You can only download Products from Resources which are in the same
-namespace, but you may reference to Stores in other name-spaces.  As long
-as you provide the contact information for these name-spaces via the
-<SCHEMA>ms:namespace</SCHEMA> elements.</p>
-
-<XML>
-<ms:unit ms:id="mine:YellowPages" ms:type="msc:Role.Store">
-  <ms:namespace ms:id="mine:Ns.ex">
-    <ms:prefix>ex</ms:prefix>
-    <ms:uri>https://example.com</ms:uri>
-    <ms:contact>https://meshy.example.com?entry</ms:contact>
-  </ms:namespace>
-  <ms:unit ms:ref="ex:first"  ms:type="msc:Role.Store" />
-</ms:unit>
-</XML>
-

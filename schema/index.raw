@@ -8,7 +8,7 @@ the Concept.</p>
 
 <p>The Concept uses administration which is maintained in
 <SCHEMA>ms:unit</SCHEMA> elements of certain types within the
-<code>msc:Role.</code> namespace.  But there are units of other types
+<code>msc:Role/</code> namespace.  But there are units of other types
 as well.  Where units are like "object", objects have different purposes
 and that expects certain relations with other "objects". The roles
 indicate what to expect, and sometimes add a little extra.</p>

@@ -1,25 +1,35 @@
 <h1>Types</h2>
 
-<p>The Meshy Space base object <SCHEMA>ms:unit</SCHEMA> is extremely flexible,
-but not expressive.  The <i>Concept</i> defines (mime like) types of units, which
-explain the role of the unit in the concept.</p>
+<p>The Meshy Space base object <SCHEMA>ms:unit</SCHEMA> is extremely
+flexible, but not expressive.  The <i>Concept</i> builds a network, in
+which units have a Role.  Roles refer to units with a certain content,
+content of a certain Type.
+See also the <a href="/schemas/base/constants/types.html">base types</a>.</p>
 
-<p>At the moment, these are the types you can expect: (sorted alphabetically)</p>
+<p>For instance, the role of "owner" of something will refer to a unit of
+type "identity".  In Meshy Space constants: a collection unit may have a
+<SCHEMA>ms:has</SCHEMA> element which <code>is</code> about the
+<code>msc:Role/Owner</code> (Role).  It <code>ref</code>ers to a unit
+of <code>unit.meta.type</code> <code>msc:Type/Identity</code>.</p>
+
+<p>At the moment, these are the types you can expect: (sorted
+alphabetically)</p>
+
 <dl>
-<dt><code>msc:Type.Collection</code></dt>
+<dt><code>msc:Type/Collection</code></dt>
 <dd>Mainly contains products (units with data managed by other applications).
     It may contain information how to mirror the data and the meta-data.
-    (Computer people call Collections "directories" or "Drive")
+    (Computer people call Collections "directories", "map", or "Drive")
 </dd>
 
-<dt><code>msc:Type.Company</code></dt>
+<dt><code>msc:Type/Company</code></dt>
 <dd>Groups all activities of a legal entity, like a company, foundation,
     or person.  It MAY publish public (anonymized) identities of personnel,
     and contact information.  Also, it will "open" Stores per main activity.
     Departments are Companies contained inside other Companies.
 </dd>
 
-<dt><code>msc:Type.Identity</code></dt>
+<dt><code>msc:Type/Identity</code></dt>
 <dd>This represents a public view of a person, company or organization.
     As a person, you may want to create many Identities, for various
     roles you have in society.  When an Identity contains other Identities,
@@ -28,19 +38,7 @@ explain the role of the unit in the concept.</p>
     (Computer people call Identities usually "login" or "certificate").
 </dd>
 
-<dt><code>msc:Type.Resource</code></dt>
-<dd>Describes to get to data storage.  The data is octets which are probably
-    packed and compressed.  It may be part of a larger resource.
-    (Computer people call Resources "files", "archives", "urls", or "zips")
-</dd>
-
-<dt><code>msc:Type.Rules</code></dt>
-<dd>Most units have access restrictions: read, create, update, deprecate,
-    expire, and so on, which are specified in a rule-set.
-    (Computer people call this "permissions" or "access control lists")
-</dd>
-
-<dt><code>msc:Type.Scribe</code></dt>
+<dt><code>msc:Type/Scribe</code></dt>
 <dd>Configuration of Collection management process, as executed by the
     Town hall.  Each Scribe needs to run often, RECOMMENDED at least every
     hour.  But it is also used to retrieve units from remove Towns.  It
@@ -50,13 +48,13 @@ explain the role of the unit in the concept.</p>
     (Computer people call Scribes "rsync scripts" or "wget")
 </dd>
 
-<dt><code>msc:Type.Store</code></dt>
+<dt><code>msc:Type/Store</code></dt>
 <dd>Groups Collections which relate to one activity of a Company: documentation,
     input data, output data, actions, history.
-    (Computer people call Stores "disk", "mirrors" or "shares")
+    (Computer people call Stores "network disk", "mirrors", or "shares")
 </dd>
 
-<dt><code>msc:Type.Town</code></dt>
+<dt><code>msc:Type/Town</code></dt>
 <dd>Main control unit for a Meshy Space instance.  It manages multiple
     namespaces which it has registered for companies and people.
     It implements the life-cycle of the units.  The Town contains Stores.

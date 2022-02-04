@@ -8,11 +8,11 @@ the same content creation process.</p>
 =schema
 
 ==xml
-<element name="unit" type="ms:_unit" />
+<element name="product" type="ms:Product" />
 
-<complexType name="_unit">
+<complexType name="Product">
   <complexContent>
-    <extension base="ms:_unit">
+    <extension base="ms:Unit">
       <sequence>
         <element ref="ms:resource" minOccurs="0" maxOccurs="unbounded" />
       </sequence>
@@ -28,7 +28,7 @@ units should also be really recognizable in client and services.
 Their ids are usually reported in response to queries.  You design the
 structure of your units.</p>
 
-<p>Products can be build on <code>hass</code>, which are sub-units:
+<p>Products can be build on <code>has</code>, which are sub-units:
 they relate to their parent in some way, and are linked to it
 <code>for</code> a certain purpose.  When there are many hass
 for the same purpose, it might be usefull to add a sequence number

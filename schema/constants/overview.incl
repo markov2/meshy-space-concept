@@ -2,13 +2,18 @@
 starting with a capital (elements and attributes are lower-cased,
 identifiers full capitals) by convention.</p>
 
+[%# When you add a descriptive page for any of the constants, then also
+  # add an '=index' line to Constant.descr, so it can be used in <SCHEMA>
+  # references.
+ %]
+
 <ul>
-<li><code><a href="roles.html">msc:Role.</a></code> constants
+<li><SCHEMA>msc:Role/</SCHEMA> constants
     express the role the relation has to some other object.  For instance,
     a unit type "Identity" can play role "Owner".
     </li>
 
-<li><code><a href="types.html">msc:Type.</a></code> constants are
+<li><SCHEMA>msc:Type/</SCHEMA> constants are
     <code>unit.type</code>s which play their part in the Meshy Space
     Concept.
     </li>
