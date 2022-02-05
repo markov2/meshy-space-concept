@@ -5,45 +5,51 @@ The client MAY understand these relations.  The relations have a Role,
 and end in a unit of a certain <a href="types.html">Type</a>.
 See also the <a href="/schemas/base/constants/roles.html">base Roles</a>.</p>
 
-<p>The <code>is</code> attribute of the <SCHEMA>ms:has</SCHEMA> elements
+<p>The <code>ms:is</code> attribute of the <SCHEMA>ms:has</SCHEMA> elements
 in a <SCHEMA>ms:unit</SCHEMA> describe the relation.  When that value
 is in the <code>msc:</code> namespace, you will find it described below.</p>
 
-<dl>
-<dt><code>msc:Role/BasedOn</code></dt>
-<dd>To be able to produce this unit, other units where used.  For instance,
-    when this is compiled code, it may refer to the source code.  It may
-    also refer to units which describe the configuration of tools which were
-    used, or servers where the production was run.<br />
-    It MAY be useful to inspect the units where your parent is based on.
-</dd>
+<div id="roles" class="accordion constants">
 
-<dt><code>msc:Role/Contains</code></dt>
-<dd>The reverse of the <code>parent</code> relation: it may refer to itself,
-    or to units one level lower in the data structure defined by the
-    <i>Concept</i>.<br />
-    For instance, a unit of type <code>msc:Role/Collection</code>
-    contains Collection sub-sets, but also Products and Actions.  It will not
-    contain Stores.
-</dd>
-
-<dt><code>msc:Role/Author</code></dt>
-<dd>Refers to a <code>msc:Type/Identity</code>.
+<h3>msc:Role/Author</h3>
+<div>
+  <p>Refers to a <SCHEMA>msc:Type/Identity</SCHEMA>.
     Who or which process has created the payload for this unit (may be more
     than one).  Although optional, this may be very useful for debugging.
     It is also required for licenses to be active.  Defaults to the
-    Creator of the parent.
-</dd>
+    Creator of the parent.</p>
+</div>
 
-<dt><code>msc:Role/Breaks</code></dt>
-<dd>Signals that the application of this unit will break the application
+<h3>msc:Role/BasedOn</h3>
+<div>
+  <p>To be able to produce this unit, other units where used.  For instance,
+    when this is compiled code, it may refer to the source code.  It may
+    also refer to units which describe the configuration of tools which were
+    used, or servers where the production was run.<br />
+    It MAY be useful to inspect the units where your parent is based on.</p>
+</div>
+
+<h3>msc:Role/Breaks</h3>
+<div>
+  <p>Signals that the application of this unit will break the application
     of other units, when they are in use in your environment.  Administrator
     intervention or a <code>--force</code> may be needed to decide whether
-    to proceed.
-</dd>
+    to proceed.</p>
+</div>
 
-<dt><code>msc:Role/Follows</code></dt>
-<dd>This unit is a logical follow-up of the referred unit(s).  For
+<h3>msc:Role/Contains</h3>
+<div>
+  <p>The reverse of the parent relation: it may refer to itself,
+    or to units one level lower in the data structure defined by the
+    <i>Concept</i>.<br />
+    For instance, a unit of type <SCHEMA>msc:Role/Collection</SCHEMA>
+    contains Collection sub-sets, but also Products and Actions.  It will not
+    contain Stores.</p>
+</div>
+
+<h3>msc:Role/Follows</h3>
+<div>
+  <p>This unit is a logical follow-up of the referred unit(s).  For
     instance, a previous document version or a previous software
     release.<br />
     The unit's <SCHEMA>ms:revision</SCHEMA> is not to be used to manage
@@ -51,57 +57,62 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
     unit.  There are no parallel unit revisions in the same space.<br />
     It is the client's choice whether takes an action when it receives a 
     unit which follows some other unit.  A deprecation of the previous
-    version may happen soon to force actions.
-</dd>
+    version may happen soon to force actions.</p>
+</div>
 
-<dt><code>msc:Role/Owner</code></dt>
-<dd>Refers to a <code>msc:Type/Identity</code>.
+<h3>msc:Role/Owner</h3>
+<div>
+  <p>Refers to a <SCHEMA>msc:Type/Identity</SCHEMA>.
     The owner, possibly more than one, has special access rules
     to the unit.  This defaults to the owner(s) of the parent
     unit.  Either you list all owners, or use the default: you cannot
-    selectively take a sub-set of owners of the parent.
-</dd>
+    selectively take a sub-set of owners of the parent.</p>
+</div>
 
-<dt><code>msc:Role/Publisher</code></dt>
-<dd>Refers to a <code>msc:Type/Identity</code>.
+<h3>msc:Role/Publisher</h3>
+<div>
+  <p>Refers to a <SCHEMA>msc:Type/Identity</SCHEMA>.
     Who or which process has connected this unit to its parent: has made
     this unit visible.<br>
     Units MAY get re-published: have more than one Publisher.  For instance,
     when someone feels that they need to be repackaged, signed with a
     stronger algorithm, and so on.  In such case, it is RECOMMENDED to keep
-    reference to the original Publisher.
-</dd>
+    reference to the original Publisher.</p>
+</div>
 
-<dt><code>msc:Role/Replaces</code><dt>
-<dd>A bit stronger than simply 'Follows': the receiving party is advised
+<h3>msc:Role/Replaces<h3>
+<div>
+  <p>A bit stronger than simply 'Follows': the receiving party is advised
     to remove the other unit when it is in use.  What will need to happen
     to achieve it, is outside the scope of Meshy Space (unless the unit
-    is a <code>msc:Type/</code>)
-</dd>
+    is a <SCHEMA>msc:Type/</SCHEMA>)</p>
+</div>
 
-<dt><code>msc:Role/Requires</code><dt>
-<dd>Used to optimize the exchange of units: inform the client to request
+<h3>msc:Role/Requires<h3>
+<div>
+  <p>Used to optimize the exchange of units: inform the client to request
     for other units before attempting to use the content of this unit.
     (Expect bi-directional dependencies).  The requirements may refer to
     software configurations or system names.<br>
-    The <code>when</code> attribute of the <SCHEMA>ms:has</SCHEMA>
-    relation may help you in very convenient ways.
-</dd>
+    The when attribute of the <SCHEMA>ms:has</SCHEMA>
+    relation may help you in very convenient ways.</p>
+</div>
 
-<dt><code>msc:Role/Rules</code></dt>
-<dd>Refers to <code>msc:Type/Rules</code>.
+<h3>msc:Role/Rules</h3>
+<div>
+  <p>Refers to <SCHEMA>msc:Type/Rules</SCHEMA>.
     Defaults to the rules of the parent unit.  The referred
     rule-set describes who can access which relations, and who can
     take which actions on the unit.  One unit SHALL have no more than
-    one rule relation, but rule role units MAY be nested.
-</dd>
+    one rule relation, but rule role units MAY be nested.</p>
+</div>
 
-<dt><code>msc:Role/Wallet</code></dt>
-<dd>Refers to <code>msc:Type/Collection</code>, which contains the
+<h3>msc:Role/Wallet</h3>
+<div>
+  <p>Refers to <SCHEMA>msc:Type/Collection</SCHEMA>, which contains the
     secret components of your Identities.  The Rules of a Wallet are
     by default more strict than for normal collections.  It is crucial
-    enough to give such collection its own Role.
-</dd>
-</dl>
+    enough to give such collection its own Role.</p>
+</div>
 
-</table>
+</div>  <!-- end of accordion -->

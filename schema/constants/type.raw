@@ -9,55 +9,64 @@ See also the <a href="/schemas/base/constants/types.html">base types</a>.</p>
 <p>For instance, the role of "owner" of something will refer to a unit of
 type "identity".  In Meshy Space constants: a collection unit may have a
 <SCHEMA>ms:has</SCHEMA> element which <code>is</code> about the
-<code>msc:Role/Owner</code> (Role).  It <code>ref</code>ers to a unit
-of <code>unit.meta.type</code> <code>msc:Type/Identity</code>.</p>
+<SCHEMA>msc:Role/Owner</SCHEMA> (Role).  It <code>ref</code>ers to a unit
+of <code>unit.type</code> <SCHEMA>msc:Type/Identity</SCHEMA>.</p>
 
 <p>At the moment, these are the types you can expect: (sorted
 alphabetically)</p>
 
-<dl>
-<dt><code>msc:Type/Collection</code></dt>
-<dd>Mainly contains products (units with data managed by other applications).
-    It may contain information how to mirror the data and the meta-data.
-    (Computer people call Collections "directories", "map", or "Drive")
-</dd>
+<div id="types" class="accordion constants">
 
-<dt><code>msc:Type/Company</code></dt>
-<dd>Groups all activities of a legal entity, like a company, foundation,
+<h3 name="Collection">msc:Type/Collection</h3>
+<div>
+  <p>Mainly contains products (units with data managed by other applications).
+    It may contain information how to mirror the data and the meta-data.
+    (Computer people call Collections "directories", "map", or "Drive")</p>
+</div>
+
+<h3 name="Company">msc:Type/Company</h3>
+<div>
+  <p>Groups all activities of a legal entity, like a company, foundation,
     or person.  It MAY publish public (anonymized) identities of personnel,
     and contact information.  Also, it will "open" Stores per main activity.
-    Departments are Companies contained inside other Companies.
-</dd>
+    Departments are Companies contained inside other Companies.</p>
+</div>
 
-<dt><code>msc:Type/Identity</code></dt>
-<dd>This represents a public view of a person, company or organization.
+<h3 name="Identity">msc:Type/Identity</h3>
+<div>
+  <p>This represents a public view of a person, company or organization.
     As a person, you may want to create many Identities, for various
     roles you have in society.  When an Identity contains other Identities,
     it behaves like a group.  Even system processes have identities, which
     allow them to sign their processing results.
-    (Computer people call Identities usually "login" or "certificate").
-</dd>
+    (Computer people call Identities usually "login" or "certificate").</p>
+</div>
 
-<dt><code>msc:Type/Scribe</code></dt>
-<dd>Configuration of Collection management process, as executed by the
+<h3 name="Scribe">msc:Type/Scribe</h3>
+<div>
+  <p>Configuration of Collection management process, as executed by the
     Town hall.  Each Scribe needs to run often, RECOMMENDED at least every
     hour.  But it is also used to retrieve units from remove Towns.  It
     implements the unit's life-cycle.  Scribes are automatically created
     when you go to a Town you have not visited before.  Then, they can
     be fine-tuned.
-    (Computer people call Scribes "rsync scripts" or "wget")
-</dd>
+    (Computer people call Scribes "rsync scripts" or "wget")</p>
+</div>
 
-<dt><code>msc:Type/Store</code></dt>
-<dd>Groups Collections which relate to one activity of a Company: documentation,
+<h3 name="Store">msc:Type/Store</h3>
+<div>
+  <p>Groups Collections which relate to one activity of a Company: documentation,
     input data, output data, actions, history.
     (Computer people call Stores "network disk", "mirrors", or "shares")
-</dd>
+</p>
+</div>
 
-<dt><code>msc:Type/Town</code></dt>
-<dd>Main control unit for a Meshy Space instance.  It manages multiple
+<h3 name="Town">msc:Type/Town</h3>
+<div>
+  <p>Main control unit for a Meshy Space instance.  It manages multiple
     namespaces which it has registered for companies and people.
     It implements the life-cycle of the units.  The Town contains Stores.
-    (Computer people call Towns confusingly "servers")
-</dd>
-</dl>
+    (Computer people call Towns confusingly "servers")</p>
+</div>
+
+</div> <!-- end of accordion -->

@@ -1,7 +1,7 @@
 
 <p>Collections describe places where to fetch data.  These data-sets
 may be very large or very small.  Somewhere, your application needs
-<i>products</i> to work with.  How you design your products is your art.
+<i>products</i> to work with.  How to design your products is your art.
 How you want to distribute your products is also your own decision.
 MSI standardizes the way your decisions are denoted.</p>
 

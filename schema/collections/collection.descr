@@ -8,48 +8,65 @@
 
 <complexType name="Collection">
   <complexContent>
-    <extension base="ms:Native" />
+    <extension base="ms:Native">
+    </extension>
   </complexContent>
 </complexType>
 ==end
 
 =description
 
-<p>The <i>collection</i> is a <SCHEMA>ms:unit</SCHEMA> which groups
-sets of bytes into a (virtual) entity.  It MAY also be a wrapping
-sub-collections, sub-sets of data.</p>
+<p>The <i>Collection</i> is a <SCHEMA>ms:unit</SCHEMA> which groups
+(large numbers of) Units.  It may also be a wrapping sub-collections:
+sub-groups of its units.</p>
 
-<p>Finally, only the <SCHEMA>ms:part</SCHEMA> elements describe the
-location of the bytes in the collection, but fetching them usually is
-a multi-stage task peeling off layers of collections, like union rings
-at run-time.</p>
-
-<p>The collection (unit) may have sub-sets, which are also collections.
+<p>The collection may have sub-sets, which are also collections.
 Your sub-set may also be a sub-set of other collections or stores.</p>
 
-=example collection
+=example Tying the Collection into the Namespace
 
 ==xml
-<ms:unit ms:id="cc:crawl-data">
-  <ms:type>msc:Role/Collection</ms:type>
-  <ms:resource ms:ref="cc:s3">
-     <ms:address>crawl-data</ms:address>
-  </ms:in>
-  <ms:resource ms:ref="cc:http" />
-  <ms:has ms:ref="cc:2020dec-crawl" />
-  <ms:has ms:ref="cc:2021jan-crawl" />
-  <ms:has ms:ref="cc:2021feb-crawl" />   <!-- and a hundred more -->
-</ms:collection>
-==json
-"ms:collection": {
-   "ms:id": "cc:crawl-data",
-   "ms:resource": [
-     { "ms:href": "cc:s3",   "ms:address": "crawl_data" },
-     { "ms:href": "cc:http", "ms:address": "crawl_data" } ],
-   "ms:has": [
-     { "ms:ref": "cc:2020dec-crawl" },
-     { "ms:ref": "cc:2021jan-crawl" },
-     { "ms:ref": "cc:2021feb-crawl" } ]
-}
+<!-- namespace cc -->
+<ms:unit ms:id="">    <!-- cc: -->
+  <ms:type>ms:Type/Namespace</ms:type>
+  <ms:namespace>
+    <ms:fetch    ms:base="s3:crawl-data" />
+    <ms:fetch    ms:base="https://aws/crawl-data" />
+    <ms:manager>collector</ms:manager>
+    <ms:subspace ms:path="crawl-data" />
+  </ms:namespace>
+</ms_unit>
+
+<ms:unit ms:id="crawl-data">  <!-- cc:crawl-data -->
+  <ms:type>msc:Type/Namespace</ms:type>
+  <ms:namespace>
+    <subspace ms:path="2020nov-crawl" />
+    <subspace ms:path="2020dec-crawl" />
+    <!-- and hundreds more -->
+  </ms:namespace>
+</ms:unit>
+
+<!-- in Namespace cc:crawl-data -->
+<ms:unit ms:id="2020dec-crawl">
+  <ms:type>msc:Type/Namespace</ms:type>
+  <ms:namespace>
+     <ms:manager>collector</ms:manager>
+  <!-- Units with real data -->
+  </ms:namespace>
+</ms:unit>
 ==end
 
+<p>The final Unit has address <code>cc:crawl-data/2020dec-crawl<code>
+and organizes the Units below it.  Namespaces <code>cc</code> and
+<code>cc:crawl-data</code> use the same collector configuration
+in Unit <code>cc:collector</code>.  The last one uses collector
+<code>cc:crawl-data/collector</code>
+
+=discuss Where to put the Collection definition
+
+<p>You may put all your Namespace and Collection Units in a
+separate part of your namespace, but the it is cleaner to put
+the Collection configuration inside the Collection itself.  Of
+course, you need to be more carefull about accidental collisions
+with the ids in the Collection content and the permissions on
+the administrative Units.</p>
