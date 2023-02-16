@@ -1,6 +1,6 @@
 <h1>Types</h2>
 
-<p>The Meshy Space base object <SCHEMA>ms:unit</SCHEMA> is extremely
+<p>The Meshy Space base object <SCHEMA>b:unit</SCHEMA> is extremely
 flexible, but not expressive.  The <i>Concept</i> builds a network, in
 which units have a Role.  Roles refer to units with a certain content,
 content of a certain Type.
@@ -8,9 +8,9 @@ See also the <a href="/schemas/base/constants/types.html">base types</a>.</p>
 
 <p>For instance, the role of "owner" of something will refer to a unit of
 type "identity".  In Meshy Space constants: a collection unit may have a
-<SCHEMA>ms:has</SCHEMA> element which <code>is</code> about the
-<SCHEMA>msc:Role/Owner</SCHEMA> (Role).  It <code>ref</code>ers to a unit
-of <code>unit.type</code> <SCHEMA>msc:Type/Identity</SCHEMA>.</p>
+<SCHEMA>b:has</SCHEMA> element which <code>is</code> about the
+<UNIT>msc:Role/Owner</UNIT> (Role).  It <code>ref</code>ers to a unit
+of <code>unit.type</code> <UNIT>msc:Type/Identity</UNIT>.</p>
 
 <p>At the moment, these are the types you can expect: (sorted
 alphabetically)</p>
@@ -28,7 +28,7 @@ alphabetically)</p>
 <div>
   <p>Groups all activities of a legal entity, like a company, foundation,
     or person.  It MAY publish public (anonymized) identities of personnel,
-    and contact information.  Also, it will "open" Stores per main activity.
+    and contact information.  Also, it will "open" Shops per main activity.
     Departments are Companies contained inside other Companies.</p>
 </div>
 
@@ -53,20 +53,19 @@ alphabetically)</p>
     (Computer people call Scribes "rsync scripts" or "wget")</p>
 </div>
 
-<h3 name="Store">msc:Type/Store</h3>
+<h3 name="Shop">msc:Type/Shop</h3>
 <div>
-  <p>Groups Collections which relate to one activity of a Company: documentation,
-    input data, output data, actions, history.
-    (Computer people call Stores "network disk", "mirrors", or "shares")
-</p>
+  <p>Groups Collections which relate to one activity of a Company:
+  documentation, input data, output data, actions, history.  (Computer
+  people call shops "network disk", "ftp server", or "shares")</p>
 </div>
 
 <h3 name="Town">msc:Type/Town</h3>
 <div>
   <p>Main control unit for a Meshy Space instance.  It manages multiple
-    namespaces which it has registered for companies and people.
-    It implements the life-cycle of the units.  The Town contains Stores.
-    (Computer people call Towns confusingly "servers")</p>
+  namespaces which it has registered for companies and people.
+  It implements the life-cycle of the units.  The Town contains Shops.
+  (Computer people call Towns confusingly "servers")</p>
 </div>
 
 </div> <!-- end of accordion -->

@@ -1,20 +1,20 @@
 <h1>Meshy Space Concept (MSC) schema</h1>
 
-<p>The <i>concept</i> (preferred namespace prefix <code>msc:</code>) is
+<p>The <i>concept</i> (preferred data namespace prefix <code>msc:</code>) is
 implemented on top of the <i>Meshy Space Interfaces</i> (MSI) structures
 (<a href="../base/">namespace prefix <code>ms:</code></a>), just like
 your own projects can be implemented on top that infrastructure or on
 the Concept.</p>
 
 <p>The Concept uses administration which is maintained in
-<SCHEMA>ms:unit</SCHEMA> elements of certain types within the
+<SCHEMA>b:unit</SCHEMA> elements of certain types within the
 <code>msc:Role/</code> namespace.  But there are units of other types
 as well.  Where units are like "object", objects have different purposes
 and that expects certain relations with other "objects". The roles
 indicate what to expect, and sometimes add a little extra.</p>
 
 <ul>
-<li><a href="/schemas/concept/msc.xsd">Download</a> the full schema.
+<li><a href="/schemas/concept/c.xsd">Download</a> the full schema.
     (Your browser may not show anything: use "View Page Source")</li>
 <li>Predefined <a href="constants/index.html">constants</a> in the
     <code>msc:</code> namespace.</li>
@@ -46,7 +46,7 @@ by external programs hence referred to as products.</p>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" version="0.1.0"
    elementFormDefault="qualified" attributeFormDefault="qualified"
    targetNamespace="https://schemas.meshy.space/concept.xsd"
-   xmlns:msc="https://schemas.meshy.space/concept.xsd"
-   xmlns:ms="https://schemas.meshy.space/base.xsd"
+   xmlns:b="https://schemas.meshy.space/base.xsd"
+   xmlns:c="https://schemas.meshy.space/concept.xsd"
 >
 </XML>

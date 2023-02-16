@@ -3,17 +3,17 @@
 =schema
 
 ==xml
-<element name="identity" type="ms:Identity"
-   substitutionGroup="ms:native" />
+<element name="identity" type="c:Identity"
+   substitutionGroup="b:native" />
 
 <complexType name="Identity">
   <complexContent>
-    <extension base="ms:Native">
+    <extension base="b:Native">
       <sequence>
         <element name="nickname"    type="token" minOccurs="0" />
         <element name="date-birth"  type="date"   minOccurs="0" />
-        <element name="gender"      type="ms:Constant" default="msc:Gender/Undisclosed" />
-        <element name="nationality" type="ms:Constant" minOccurs="0" maxOccurs="unbounded" />
+        <element name="gender"      type="b:Constant" default="msc:Gender/Undisclosed" />
+        <element name="nationality" type="b:Constant" minOccurs="0" maxOccurs="unbounded" />
         <element name="phone"       type="token" minOccurs="0" />
         <element name="email"       type="token" minOccurs="0" />
         <element name="street"      type="token" minOccurs="0" />
@@ -30,11 +30,11 @@
 
 =element gender
 
-<p>See the <SCHEMA>ms:Gender/</SCHEMA> for the gender constants.</a></p>
+<p>See the <UNIT>ms:Gender/</UNIT> for the gender constants.</a></p>
 
 =element nationality
 
 <p>Nationalities refer to countries, which are represented by the constants
-in <SCHEMA>ms:Country/</SCHEMA></p>
+in <UNIT>ms:Country/</UNIT></p>
 
 =element phone

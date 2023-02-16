@@ -1,19 +1,19 @@
 <h1>Roles</h1>
 
-<p>Meshy Space base object <SCHEMA>ms:unit</SCHEMA> has many relations.
+<p>Meshy Space base object <SCHEMA>b:unit</SCHEMA> has many relations.
 The client MAY understand these relations.  The relations have a Role,
 and end in a unit of a certain <a href="types.html">Type</a>.
 See also the <a href="/schemas/base/constants/roles.html">base Roles</a>.</p>
 
-<p>The <code>ms:is</code> attribute of the <SCHEMA>ms:has</SCHEMA> elements
-in a <SCHEMA>ms:unit</SCHEMA> describe the relation.  When that value
+<p>The <code>b:is</code> attribute of the <SCHEMA>b:has</SCHEMA> elements
+in a <SCHEMA>b:unit</SCHEMA> describe the relation.  When that value
 is in the <code>msc:</code> namespace, you will find it described below.</p>
 
 <div id="roles" class="accordion constants">
 
 <h3>msc:Role/Author</h3>
 <div>
-  <p>Refers to a <SCHEMA>msc:Type/Identity</SCHEMA>.
+  <p>Refers to a <UNIT>msc:Type/Identity</UNIT>.
     Who or which process has created the payload for this unit (may be more
     than one).  Although optional, this may be very useful for debugging.
     It is also required for licenses to be active.  Defaults to the
@@ -42,9 +42,9 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
   <p>The reverse of the parent relation: it may refer to itself,
     or to units one level lower in the data structure defined by the
     <i>Concept</i>.<br />
-    For instance, a unit of type <SCHEMA>msc:Role/Collection</SCHEMA>
+    For instance, a unit of type <UNIT>msc:Role/Collection</UNIT>
     contains Collection sub-sets, but also Products and Actions.  It will not
-    contain Stores.</p>
+    contain Shops.</p>
 </div>
 
 <h3>msc:Role/Follows</h3>
@@ -52,7 +52,7 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
   <p>This unit is a logical follow-up of the referred unit(s).  For
     instance, a previous document version or a previous software
     release.<br />
-    The unit's <SCHEMA>ms:revision</SCHEMA> is not to be used to manage
+    The unit's <SCHEMA>b:revision</SCHEMA> is not to be used to manage
     releases: the newest revision is the <i>only</i> valid state of the
     unit.  There are no parallel unit revisions in the same space.<br />
     It is the client's choice whether takes an action when it receives a 
@@ -62,7 +62,7 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
 
 <h3>msc:Role/Owner</h3>
 <div>
-  <p>Refers to a <SCHEMA>msc:Type/Identity</SCHEMA>.
+  <p>Refers to a <UNIT>msc:Type/Identity</UNIT>.
     The owner, possibly more than one, has special access rules
     to the unit.  This defaults to the owner(s) of the parent
     unit.  Either you list all owners, or use the default: you cannot
@@ -71,7 +71,7 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
 
 <h3>msc:Role/Publisher</h3>
 <div>
-  <p>Refers to a <SCHEMA>msc:Type/Identity</SCHEMA>.
+  <p>Refers to a <UNIT>msc:Type/Identity</UNIT>.
     Who or which process has connected this unit to its parent: has made
     this unit visible.<br>
     Units MAY get re-published: have more than one Publisher.  For instance,
@@ -85,7 +85,7 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
   <p>A bit stronger than simply 'Follows': the receiving party is advised
     to remove the other unit when it is in use.  What will need to happen
     to achieve it, is outside the scope of Meshy Space (unless the unit
-    is a <SCHEMA>msc:Type/</SCHEMA>)</p>
+    is a <UNIT>msc:Type/</UNIT>)</p>
 </div>
 
 <h3>msc:Role/Requires<h3>
@@ -94,13 +94,13 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
     for other units before attempting to use the content of this unit.
     (Expect bi-directional dependencies).  The requirements may refer to
     software configurations or system names.<br>
-    The when attribute of the <SCHEMA>ms:has</SCHEMA>
+    The when attribute of the <SCHEMA>b:has</SCHEMA>
     relation may help you in very convenient ways.</p>
 </div>
 
 <h3>msc:Role/Rules</h3>
 <div>
-  <p>Refers to <SCHEMA>msc:Type/Rules</SCHEMA>.
+  <p>Refers to <UNIT>msc:Type/Rules</UNIT>.
     Defaults to the rules of the parent unit.  The referred
     rule-set describes who can access which relations, and who can
     take which actions on the unit.  One unit SHALL have no more than
@@ -109,7 +109,7 @@ is in the <code>msc:</code> namespace, you will find it described below.</p>
 
 <h3>msc:Role/Wallet</h3>
 <div>
-  <p>Refers to <SCHEMA>msc:Type/Collection</SCHEMA>, which contains the
+  <p>Refers to <UNIT>msc:Type/Collection</UNIT>, which contains the
     secret components of your Identities.  The Rules of a Wallet are
     by default more strict than for normal collections.  It is crucial
     enough to give such collection its own Role.</p>

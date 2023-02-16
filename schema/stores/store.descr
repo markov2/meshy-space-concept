@@ -9,11 +9,11 @@ uploading, and downloading of data.</p>
 
 ==xml
 <element name="store" type="Store"
-    substitutionGroup="ms:native" />
+    substitutionGroup="b:native" />
 
 <complexType name="Store">
   <complexContent>
-    <extension base="ms:Native" />
+    <extension base="b:Native" />
   </complexContent>
 </complexType>
 ==end
@@ -25,7 +25,7 @@ street: a place where you can bring or collect things, where you can
 place orders for goods or services.</p>
 
 <p>What shops need is currently all offered by the generic
-<SCHEMA>ms:unit</SCHEMA>, so the specific payload is empty.  This
+<SCHEMA>b:unit</SCHEMA>, so the specific payload is empty.  This
 may change.</p>
 
 <h2>Setting-up a Store</h2>
@@ -46,14 +46,14 @@ parts and values:</p>
 <dd>When the jurisdiction of data is not defined, it will cause
     complications implementing regulations and enforce law.  It
     is RECOMMENDED to set your jurisdiction on Store level.
-    See <SCHEMA>ms:jurisdiction</SCHEMA>.
+    See <SCHEMA>b:jurisdiction</SCHEMA>.
 <dt>Indentities of users</dt>
-<dd><SCHEMA>ms:identity</SCHEMA> units, which are used for
-    <code>msc:Role/Access</code></dd>
-    <code>msc:Role/Publisher</code></dd>
-    <code>msc:Role/Owner</code></dd>
+<dd><SCHEMA>b:identity</SCHEMA> units, which are used for
+    <UNIT>msc:Role/Access</UNIT></dd>
+    <UNIT>msc:Role/Publisher</UNIT></dd>
+    <UNIT>msc:Role/Owner</UNIT></dd>
 <dt>Definitions of servers</dt>
-<dd>The <SCHEMA>ms:server</SCHEMA> descriptions, which are used
+<dd>The <SCHEMA>b:server</SCHEMA> descriptions, which are used
     to communicate with the customers.  The collections will
     define their location within those servers.</dd>
 </dt>
@@ -61,22 +61,22 @@ parts and values:</p>
 =example Companies owning stores
 
 <XML>
-<ms:unit ms:id="mine:Company" ms:type="msc:Role/Store">
-  <ms:part ms:ref="mine:Store/Utrecht" ms:type="msc:Role/Store" />
-  <ms:part ms:ref="mine:Store/NewYork" ms:type="msc:Role/Store" />
-</ms:unit>
-<ms:unit ms:id="mine:Store.Amsterdam" ms:type="msc:Role/Store">
-  <ms:unit ms:ref="mine:Sell/shoes"    ms:type="msc:Role/Collection" />
-  <ms:unit ms:ref="mine:Sell/sneakers" ms:type="msc:Role/Collection" />
-</ms:unit>
-<ms:unit ms:id="mine:Store/Amsterdam" ms:type="msc:Role/Store">
-  <ms:part ms:ref="mine:Sell/sneakers" ms:type="msc:Role/Collection" />
-</ms:unit>
+<b:unit b:id="mine:Company" ms:type="msc:Role/Store">
+  <b:part b:ref="mine:Store/Utrecht" b:type="msc:Role/Store" />
+  <b:part b:ref="mine:Store/NewYork" b:type="msc:Role/Store" />
+</b:unit>
+<b:unit b:id="mine:Store.Amsterdam" b:type="msc:Role/Store">
+  <b:unit b:ref="mine:Sell/shoes"    b:type="msc:Role/Collection" />
+  <b:unit b:ref="mine:Sell/sneakers" b:type="msc:Role/Collection" />
+</b:unit>
+<b:unit b:id="mine:Store/Amsterdam" b:type="msc:Role/Store">
+  <b:part b:ref="mine:Sell/sneakers" b:type="msc:Role/Collection" />
+</b:unit>
 </XML>
 
 <p>The Store in Amsterdam does sell normal shoes, but the one in New York
 does not.  Per collection, you define who is maintaining it, who can add,
-and who can use them.  See <SCHEMA>msc:collection</SCHEMA>.</p>
+and who can use them.  See <UNIT>msc:collection</UNIT>.</p>
 
 <p>You MAY also include specific sub-sub-sub-Collections in case that's
 useful, but that makes the data harder to maintain.</p>

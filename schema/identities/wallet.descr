@@ -6,18 +6,18 @@ your private keys.</p>
 =schema
 
 ==xml
-<element name="wallet" type="ms:Wallet"
-    substitutionGroup="ms:native" />
+<element name="wallet" type="c:Wallet"
+    substitutionGroup="b:native" />
 
 <complexType name="Wallet">
   <complexContent>
-    <extension base="ms:Native" />
+    <extension base="b:Native" />
   </complexContent>
 </complexType>
 ==end
 
 =description
 
-<p>The wallet <SCHEMA>ms:has</SCHEMA> collects the private identities
+<p>The wallet <SCHEMA>b:has</SCHEMA> collects the private identities
 of some person or organization.  The private identity units should be
 stored encrypted inside the wallet.</p>

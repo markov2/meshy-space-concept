@@ -39,44 +39,30 @@ The third is very different (and not specified in this example)</p>
 <p>The following publication definitions reflect the variety of interfaces.
 The configuration is part of the store definition:</p>
 <XML>
-<ms:unit ms:id="https://commoncrawl.org">
-  <ms:type>msc:Role/Store</ms:type>
-  <ms:has ms:ref="cc:s3"    ms:is="msc:Role/Collection" />
-  <ms:has ms:ref="cc:http"  ms:is="msc:Role/Collection" />
-  <ms:has ms:ref="cc:index" ms:is="msc:Role/Collection" />
-</ms:unit>
-<ms:unit ms:id="cc:s3">
-  <ms:type="msc:Role/Resource">
-  <ms:resource>
-     <ms:address>s3://commoncrawl</ms:address>
-  </ms:resource>
-  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role/Collection" />
-</ms:unit>
-<ms:unit ms:id="cc:http">
-  <ms:type="msc:Role/Resource">
-  <ms:resource>
-     <ms:address>https://commoncrawl.s3.amazonaws.com</ms:address>
-  </ms:resource>
-  <ms:has ms:ref="cc:crawl-data" ms:is="msc:Role/Collection" />
-</ms:unit>
-<ms:unit ms:id="cc:index">
-  <ms:address>s3://commoncrawl/cc-index/table/cc-main/warc/</ms:address>
-</ms:unit>
+<b:unit b:id="shop">
+  <b:type>msc:Role/Store</b:type>
+  <b:fetch b:base="s3:"    />
+  <b:fetch b:base="http://aws"  />
+  <b:has b:ref="cc:index" b:is="msc:Role/Collection" />
+</b:unit>
+<b:unit b:id="cc:s3">
+  <b:type="msc:Role/Resource">
+  <b:resource>
+     <b:entry>s3://commoncrawl</b:entry>
+  </b:resource>
+  <b:has b:ref="cc:crawl-data" b:is="msc:Role/Collection" />
+</b:unit>
+<b:unit b:id="cc:http">
+  <b:type="msc:Role/Resource">
+  <b:resource>
+     <b:entry>https://commoncrawl.s3.amazonaws.com</b:entry>
+  </b:resource>
+  <b:has b:ref="cc:crawl-data" b:is="msc:Role/Collection" />
+</b:unit>
+<b:unit b:id="cc:index">
+  <b:entry>s3://commoncrawl/cc-index/table/cc-main/warc/</b:entry>
+</b:unit>
 </XML>
-<JSON>
-"ms:unit": [ {
-    "ms:id": "cc:s3",
-    "ms:address": "s3://commoncraw",
-    "ms:collection": { "ms:ref" : "cc:crawl-data" }
-}, {
-    "ms:id": "cc:http",
-    "ms:address": "https://commoncrawl.s3.amazonaws.com",
-    "ms:collection": { "ms:ref" : "cc:crawl-data" }
-}, {
-    "ms:id": "cc:index",
-    "ms:address": "s3://commoncrawl/cc-index/table/cc-main/warc/"
-} ]
-</JSON>
 
 <p>The <code>address</code> URIs may contain access information,
 like username and password.  There are many URI schemes, see the
@@ -97,34 +83,29 @@ is an abstract notion: a set of data products.  The concept design is
 more important than the implementation details</p>
 
 <XML>
-<ms:unit ms:id="cc:crawl-data">
-  <ms:type>msc:Role/Collection</ms.type>
-  <ms:resource ms:ref="cc:s3">
-    <ms:address>crawl-data/</ms:address>
-  </ms:resource>
-  <ms:resource ms:ref="cc:http">
-    <ms:address>crawl-data/</ms:address>
-  </ms:resource>
-  <ms:collection ms:ref="cc:2020dec-crawl" />
-  <ms:collection ms:ref="cc:2021jan-crawl" />
-  <ms:collection ms:ref="cc:2021feb-crawl" />   <!-- and a hundred more -->
-</ms:unit>
-</XML>
-<JSON>
-"ms:unit": {
-   "ms:type": "msc:Role/Collection",
-   "ms:id": "cc:crawl-data",
-   "ms:resource": [
-     { "ms:ref": "cc:s3",   "ms:address": "crawl_data/" },
-     { "ms:ref": "cc:http", "ms:address": "crawl_data/" } ],
-   "ms:collection": [ 
-     { "ms:ref": "cc:2020dec-crawl" },
-     { "ms:ref": "cc:2021jan-crawl" },
-     { "ms:ref": "cc:2021feb-crawl" } ]
-}
-</JSON>
+<!-- in namespace cc: -->
+<b:unit b:id="">
+  <b:type>ms:Type/Namespace</b:type>
+  <b:use b:prefix="cc" />   <!-- refers to me -->
+  <b:namespace>
+    <b:manager>server-config</b:manager>
+    <b:fetch b:base="s3://commoncrawl/" />
+    <b:fetch b:base="https://commoncrawl.s3.amazonaws.com/" />
+  </b:namespace>
+</b:unit>
 
-<p>Collections can contains sub-collections, like a directory can contain
+<b:unit b:id="server-config">
+  <b:type>msc:Type/Shop</ms.type>
+  <c:shop>
+  </c:shop>
+  <b:has my:is="msc:Type/Collection" b:ref="2020dec-crawl" />
+  <b:has my:is="msc:Type/Collection" b:ref="2021jan-crawl" />
+  <b:has my:is="msc:Type/Collection" b:ref="2021feb-crawl" />
+  <!-- and hundreds more -->
+</b:unit>
+</XML>
+
+<p>Collections can contain sub-collections, like a directory can contain
 sub-directories or a zip-file may contain zip-files.  In the example
 above, you can read that each month a separate crawl collection is
 produced as new part in the full collection.</p>
@@ -145,10 +126,10 @@ address.  You may use any kind of relative addressing which your URI
 scheme supports, or use absolute addresses.
 Mind that you SHALL put a trailing slash on directories!</p>
 
-<p>The collection refers to the publication, and the publication to the collection:
-you MAY NEED to dynamicly ask the service for missing details, therefore
-this is a double-linked list.  The number of collections is usually
-small compared to the amount of products included in them.</p>
+<p>The collection refers to the publication, and the publication to the
+collection: you MAY NEED to dynamicly ask the service for missing details,
+therefore this is a double-linked list.  The number of collections is
+usually small compared to the amount of products included in them.</p>
 
 <h2>Sub-collections</h2>
 
@@ -167,32 +148,23 @@ $words = $page->part('text')->word_count;
 and parts.  That are choice you make for your data.</p>
 
 <XML>
-<ms:unit ms:id="cc:2021feb">
-  <ms:type>msc:Role/Collection</ms:type>
-  <ms:resource ms:ref="cc:crawl-data">
-     <ms:address>CC-MAIN-2021-10/</ms:address>
-     <ms:size>62.51T</ms:size>
-  </ms:resource>
-  <ms:has ms:ref="cc:2021feb-crawl" />
-  <ms:has ms:ref="cc:2021feb-metadata" />  <!-- WAT files -->
-  <ms:has ms:ref="cc:2021feb-texts" />     <!-- WET files -->
-</ms:unit>
+<b:unit b:id="2021feb">
+  <b:type>ms:Type/Namespace</b:type>
+  <b:namespace>
+    <b:fetch b:base="CC-MAIN-2021-10/" />
+  </b:namespace>
+</b:unit>
+
+<b:unit b:id=
+  <b:type>msc:Type/Collection</b:type>
+  <b:collection>
+  </b:resource>
+  </b:collection>
+  <b:has b:ref="2021feb-crawl" />
+  <b:has b:ref="2021feb-metadata" />  <!-- WAT files -->
+  <b:has b:ref="2021feb-texts" />     <!-- WET files -->
+</b:unit>
 </XML>
-<JSON>
-"ms:unit": {
-   "ms:type": "msc:Role/Collection",
-   "ms:id": "cc:2021feb",
-   "ms:resource": {
-       "ms:ref": "cc:crawl-data",
-       "ms:address": "CC-MAIN-2021-10/",
-       "ms:size": "62.51TB"
-   },
-   "ms:unit": [
-     { "ms:ref": "cc:2021feb-crawl" },
-     { "ms:ref": "cc:2021feb-metadata" },
-     { "ms:ref": "cc:2021feb-texts" } ]
-}
-</JSON>
 
 <p>The different parts all have their own sub-collection.  They do
 not need to be published at the same time.  As any structural component,
@@ -208,31 +180,16 @@ static information.</p>
 <p>On a certain nesting of collections, you will shift from representing
 physical directories into representing packaged product parts (optional).</p>
 <XML>
-<ms:unit ms:id="cc:2021feb-crawl">
-  <ms:type>msc:Role/Collection</ms:type>
-  <ms:packaged ms:ref="cc:2021feb">
-     <ms:address>segments/</ms:address>
-  </ms:packaged>
-  <ms:has ms:ref="cc:202102warc-00000" />
-  <ms:has ms:ref="cc:202102warc-00001" />  <!-- and 78000 more -->
-  <ms:product-count>2.7B</ms:product-count>
-</ms:unit>
+<b:unit b:id="2021-10">
+  <b:type>msc:Type/Namespace</b:type>
+  <b:namespace />
+    <b:fetch b:base="CC-MAIN-2021-10/segments/" />
+  </b:namespace>
+  <b:has b:is="warc:Type/Archive" b:ref="2021-10/00000" />
+  <b:has b:is="warc:Type/Archive" b:ref="2021-10/00001" />
+     <!-- and 78000 more -->
+</b:unit>
 </XML>
-<JSON>
-"ms:unit": {
-  "ms:id": "cc:2021feb-crawl",
-  "ms:type": "msc:Role/Collection",
-  "ms:packaged": {
-       "ms:ref": "cc:2021feb",
-       "ms:address": "segments/"
-   },
-  "ms:has": [
-     { "ms:ref": "cc:202102warc-00000" },
-     { "ms:ref": "cc:202102warc-00001" }
-  ],
-  "ms:product-count": "2.7B"
-}
-</JSON>
 
 <p>The absolute address for this set is already getting quite long
 <code>s3://commoncrawl/crawl-data/CC-MAIN-2021-10/segments/</code></p>
@@ -243,28 +200,18 @@ physical directories into representing packaged product parts (optional).</p>
 declarive and abstract.</p>
 
 <XML>
-<ms:unit ms:id="cc:202102warc-00000">
-  <ms:type>msc:Role/Collection</ms:type>
-  <ms:packaged ms:ref="cc:2021feb-crawl">
-     <ms:address>1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz</ms:address>
-     <ms:format>ms:MimeType/application/x-warc.archive</ms:format>
-     <ms:encoded>ms:Algo/GzipMultiStream</ms:encoded>
-     <ms:size>1063809923</ms:size>
-  </ms:packaged>
-</ms:unit>
+<b:unit b:id="202102warc-00000">
+  <b:type>msc:Type/Collection</b:type>
+  <b:content>
+    <b:type>warc:Type/Archive</b:type>
+    <b:size>1063809923</b:size>
+    <b:packaged b:by="b:Pack/GzipMultiStream">
+      <b:fetch b:ref="2021feb-crawl">
+      <b:entry>1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz</b:entry>
+    </b:packaged>
+  </b:content>
+</b:unit>
 </XML>
-<JSON>
-"ms:unit": {
-   "ms:id": "cc:202102warc-00000",
-   "ms:packaged": {
-      "ms:ref": "cc:2021feb-crawl",
-      "ms:address": "1614178347293.1/warc/CC-MAIN-2021022-00000.warc.gz",
-      "ms:format": "ms:Mime/application/x-warc.archive",
-      "ms:encoded": "ms:Algo/GzipMultiStream",
-      "ms:size": 1063809923
-   },
-}
-</JSON>
 
 <p>WARC files use extension <code>.warc.gz</code>, but we warned that
 each "record" is separately compressed with gzip.  Each crawled web-page
@@ -280,129 +227,87 @@ unit of configuration.</p>
 
 <h2>Products</h2>
 
-<p>Only at the bottom of a collection structure, we find real bytes.  But that's
-not important.  Crucial is that the server has homogeneous units &mdash;items&mdash;
-prepared for the client.  Those logic <code>items</code> collect their knowledge
-from the fastest and cheapest sources, and only when they need to.</p>
+<p>Only at the bottom of a collection structure, we find real bytes.
+But that's not important.  Crucial is that the server has homogeneous
+units &mdash;items&mdash; prepared for the client.  Those logic
+<code>items</code> collect their knowledge from the fastest and cheapest
+sources, and only when they need to.</p>
 
 <XML>
-<ms:unit ms:id="cc:ASDJKDJO12314A">
-  <ms:name>https://markov.solutions/index.html</ms:name>
-  <ms:created>2021-04-01T09:08:07Z</ms:created>
-  <ms:expires>2021-12-30T12:00:00Z</ms:expires>
-  <ms:has ms:is="cc:Warc.Request"  ms:ref="cc:ASDJKDJO12314A-req"   />
-  <ms:has ms:is="cc:Warc.Response" ms:ref="cc:ASDJKDJO12314A-resp"  />
-  <ms:has ms:is="cc:Warc.Text"     ms:ref="cc:ASDJKDJO12314A-text"  />
-  <ms:has ms:is="cc:Warc.Links"    ms:ref="cc:ASDJKDJO12314A-links" />
-</ms:unit>
+<!-- in namespace cc: -->
+<b:unit b:id="202102warc-00000">
+  <b:type>warc:Type/Archive</b:type>
+  <b:name>CommonCrawl output 2021-02 file 00000</b:name>
+  <b:content>
+    <b:type>warc:Type/Archive</b:type>
+    <b:fetch b:href="202102warc-00000.warc.gz" />
+  </b:content>
+</b:unit>
 
-<ms:unit ms:id="cc:ASDJKDJO12314A-req">
-  <ms:type>cc:Warc.Request</ms:type>
-  <ms:size>34516</ms:size>
-  <ms:packaged ms:ref="202102warc-00000">
-    <ms:address>#12314151+11515</ms:address>
-    <ms:format>ms:Mime/application/x-warc.record</ms:format>
-  </ms:packaged>
-</ms:unit>
+<b:unit b:id="ASDJKDJO12314A">
+  <b:type>cc:Type/CrawlResults</b:type>
+  <b:name>https://markov.solutions/index.html</b:name>
+  <b:created>2021-04-01T09:08:07Z</b:created>
+  <b:expires>2021-12-30T12:00:00Z</b:expires>
+  <b:content/>
+  <b:has b:is="warc:Role/Request"  b:ref="ASDJKDJO12314A-req"   />
+  <b:has b:is="warc:Role/Response" b:ref="ASDJKDJO12314A-resp"  />
+  <b:has b:is="warc:Role/Text"     b:ref="ASDJKDJO12314A-text"  />
+  <b:has b:is="warc:Role/Links"    b:ref="ASDJKDJO12314A-links" />
+</b:unit>
 
-<ms:unit ms:id="cc:ASDJKDJO12314A-req">
-  <ms:type>ms:Warc.Response</ms:type>
-  <ms:size>25257</ms:size>
-  <ms:packaged ms:ref="202102warc-00000">
-    <ms:address>#12325666+23521</ms:address>
-    <ms:format>ms:Mime/application/x-warc.record</ms:format>
-  </ms:resource>
-</ms:unit>
+<b:unit b:id="ASDJKDJO12314A-req">
+  <b:type>warc:Type/record</b:type>
+  <b:content>
+    <b:size>34516</b:size>
+    <b:packaged b:by="ms:Pack/GzipMultiStream">
+      <b:resource>202102warc-00000</b:resource>
+      <b:entry>#12314151+11515</b:entry>
+    </b:packaged>
+  </b:content>
+</b:unit>
 
-<ms:unit ms:id="cc:ASDJKDJO12314A-text">
-  <ms:type>cc:Warc.Text</ms:type>
-  <ms:size>516</ms:size>
-  <ms:charset>iso-5988-1</ms:charset>
-  <ms:languages>cc:Cdl2-3.Nld 1</ms:languages>
-  <ms:packaged ms:ref="202102wet-368">
-     <ms:address>#3242+2345428</ms:address>
-     <ms:format>ms:Mime/application/x-warc.record</ms:format>
-  </ms:packaged>
-</ms:unit>
+<b:unit b:id="ASDJKDJO12314A-req">
+  <b:type>warc:Type/record</b:type>
+  <b:content>
+    <b:size>25257</b:size>
+    <b:packaged b:by="ms:Pack/GzipMultiStream">
+      <b:resource>202102warc-00000</b:resource>
+      <b:entry>#12325666+23521</b:entry>
+    </b:packaged>
+  </b:content>
+</b:unit>
 
-<ms:unit ms:id="cc:ASDJKDJO12314A-links">
-   <ms:type>cc:Warc.Links</ms:type>
-   <ms:inlined>
-      <ms:encoded>ms:Algo/Gzip ms:Algo/Base64</ms:encoded>
-      <ms:format>ms:Mime/text/uri-list</ms:format>
-      <ms:blob>
+<b:unit b:id="ASDJKDJO12314A-text">
+  <b:type>warc:Type/record</b:type>
+  <b:content>
+    <b:size>516</b:size>
+    <b:charset>iso-5988-1</b:charset>
+    <b:languages>ms:/Languange/nl-NL</b:languages>
+    <b:packaged b:by="ms:Pack/GzipMultiStream">
+      <!-- from another resource -->
+      <b:resource>202102wet-0368</b:resource>
+      <b:entry>#3242+2345428</b:entry>
+    </b:packaged>
+  <b:content>
+</b:unit>
+
+<b:unit b:id="ASDJKDJO12314A-links">
+   <b:type>ms:Mime/text/uri-list</b:type>
+   <b:content>
+      <b:blob b:compressed="ms:Compress/Gzip"
+               b:encoded="ms:Encode/Base64">
 ewogICAiQ29udGFpbmVyIiA6IHsKICAgICAgIkNvbXByZXNzZWQiIDogdHJ1ZSw
 ZnNldCIgOiAiNjAwOTk3NTgzIiwKICAgICAgIkZpbGVuYW1lIiA6ICJDQy1NQUl
 bnQtTGVuZ3RoIiA6ICIyMDEiCiAgICAgIH0sCiAgICAgICJGb3JtYXQiIDogIld
 fQo=
-      <ms:blob>
-   <ms:inlined>
-</ms:unit>
+      <b:blob>
+   <b:content>
+</b:unit>
 </XML>
-<JSON>
-"ms:product": [ {
-  "ms:id": "cc:ASDJKDJO12314A",
-  "ms:name": "https://markov.solutions/index.html",
-  "ms:created": "2021-04-01T09:08:07Z",
-  "ms:expires": "2021-12-30T12:00:00Z",
-  "ms:part": [ {
-      "ms:is": "cc:Request",
-      "ms:ref": "cc:ASDJKDJO12314A-req"
-    }, {
-      "ms:is": "cc:Response",
-      "ms:ref": "cc:ASDJKDJO12314A-resp"
-    }, {
-      "ms:is": "cc:Text",
-      "ms:ref": "cc:ASDJKDJO12314A-text"
-    }, {
-      "ms:is": "cc:Links",
-      "ms:ref": "cc:ASDJKDJO12314A-links"
-    } ]
-  }, {
-    "ms:id": "cc:ASDJKDJO12314A-req",
-    "ms:resource": {
-       "ms:ref": "202102warc-00000",
-       "ms:address": "#12314151+11515",
-       "ms:format": "ms.Mime/application/x-warc.request"
-    },
-    "ms:size": 34516
-  }, {
-    "ms:id": "cc:ASDJKDJO12314A-resp",
-    "ms:resource": {
-       "ms:ref": "202102warc-00000",
-       "ms:address": "#12325666+23521",
-       "ms:format": "ms.Mime/application/x-warc.response"
-    },
-    "ms:size": 25257
-  }, {
-    "ms:id": "cc:ASDJKDJO12314A-text",
-    "ms:resource": {
-       "ms:ref": "202102wet-368",
-       "ms:address": "#3242+2345428",
-       "ms:format": "ms:Mime/application/x-warc.wet"
-    },
-    "ms:size": 516,
-    "ms:charset": "iso-5988-1",
-    "ms:languages": "cc:Cdl2-3.Nld 1"
-  }, {
-    "ms:id": "cc:ASDJKDJO12314A-text",
-    "ms:resource": {
-       "ms:ref": "cc:202102links",
-       "ms:encoded": "ms:Algo/Gzip ms:Algo/Base64",
-       "ms:format": "ms:Mime/text/uri-list"
-    }
-  }
-},
-"ms:publication": {
-   "ms:id": "cc:202102links",
-   "ms:blob": "ewogIC...fQo="
-}
-</JSON>
 
-<p>One url (here used as <code>name</code>) groups raw crawl information,
-extracted text (optional), extracted links, and more.  Be aware that
-these <i>product</i> definitions may come from different collections,
-and hence may only be collected dynamically on demand and in bulk.</p>
+<p>With url (here used as <code>name</code>) one can get structured crawl
+information, extracted text (optional), extracted links, and more.</p>
 
 <h2>Placement</h2>
 

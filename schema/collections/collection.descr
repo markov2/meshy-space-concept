@@ -3,12 +3,12 @@
 =schema
 
 ==xml
-<element name="collection" type="ms:Collection"
-   substitutionGroup="ms:native" />
+<element name="collection" type="c:Collection"
+   substitutionGroup="b:native" />
 
 <complexType name="Collection">
   <complexContent>
-    <extension base="ms:Native">
+    <extension base="b:Native">
     </extension>
   </complexContent>
 </complexType>
@@ -16,7 +16,7 @@
 
 =description
 
-<p>The <i>Collection</i> is a <SCHEMA>ms:unit</SCHEMA> which groups
+<p>The <i>Collection</i> is a <SCHEMA>b:unit</SCHEMA> which groups
 (large numbers of) Units.  It may also be a wrapping sub-collections:
 sub-groups of its units.</p>
 
@@ -27,40 +27,38 @@ Your sub-set may also be a sub-set of other collections or stores.</p>
 
 ==xml
 <!-- namespace cc -->
-<ms:unit ms:id="">    <!-- cc: -->
-  <ms:type>ms:Type/Namespace</ms:type>
-  <ms:namespace>
-    <ms:fetch    ms:base="s3:crawl-data" />
-    <ms:fetch    ms:base="https://aws/crawl-data" />
-    <ms:manager>collector</ms:manager>
-    <ms:subspace ms:path="crawl-data" />
-  </ms:namespace>
-</ms_unit>
+<b:unit b:id="">    <!-- cc: -->
+  <b:type>ms:Type/Namespace</b:type>
+  <b:namespace>
+    <b:fetch    b:base="s3:crawl-data" />
+    <b:fetch    b:base="https://aws/crawl-data" />
+    <b:manager>collector</b:manager>
+    <b:subspace b:path="crawl-data" />
+  </b:namespace>
+</b:unit>
 
-<ms:unit ms:id="crawl-data">  <!-- cc:crawl-data -->
-  <ms:type>msc:Type/Namespace</ms:type>
-  <ms:namespace>
-    <subspace ms:path="2020nov-crawl" />
-    <subspace ms:path="2020dec-crawl" />
+<b:unit b:id="/crawl-data">
+  <b:type>ms:Type/Namespace</b:type>
+  <b:namespace>
+    <b:subspace b:path="2020nov-crawl" />
+    <b:subspace b:path="2020dec-crawl" />
     <!-- and hundreds more -->
-  </ms:namespace>
-</ms:unit>
+  </b:namespace>
+</b:unit>
 
-<!-- in Namespace cc:crawl-data -->
-<ms:unit ms:id="2020dec-crawl">
-  <ms:type>msc:Type/Namespace</ms:type>
-  <ms:namespace>
-     <ms:manager>collector</ms:manager>
-  <!-- Units with real data -->
-  </ms:namespace>
-</ms:unit>
+<b:unit b:id="/crawl-data/2020dec-crawl">
+  <b:type>ms:Type/Namespace</b:type>
+  <b:namespace>
+     <b:manager>./collector</b:manager>
+  </b:namespace>
+</b:unit>
 ==end
 
-<p>The final Unit has address <code>cc:crawl-data/2020dec-crawl<code>
-and organizes the Units below it.  Namespaces <code>cc</code> and
-<code>cc:crawl-data</code> use the same collector configuration
-in Unit <code>cc:collector</code>.  The last one uses collector
-<code>cc:crawl-data/collector</code>
+<p>The final Unit has address <UNIT>cc:crawl-data/2020dec-crawl</UNIT>
+and organizes the Units below it.  Namespaces <UNIT>cc</UNIT> and
+<UNIT>cc:crawl-data</UNIT> use the same collector configuration
+in Unit <UNIT>cc:collector</UNIT>.  The last one uses collector
+<UNIT>cc:crawl-data/2020dec-crawl/collector</UNIT></p>
 
 =discuss Where to put the Collection definition
 
