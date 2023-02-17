@@ -10,7 +10,7 @@
 
 <complexType name="Documentation">
   <complexContent>
-    <extension base="b:Native" />
+    <extension base="b:Native">
       <sequence>
         <element ref="b:documentation" minOccurs="0" maxOccurs="unbounded" />
       </sequence>
