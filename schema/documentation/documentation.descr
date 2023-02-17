@@ -1,0 +1,31 @@
+=short
+
+<p>The payload of a Unit which is specialized in documentation texts.</p>
+
+=schema
+
+==xml
+<element name="documentation" type="c:Documentation"
+   substitutionGroup="b:payload" />
+
+<complexType name="Documentation">
+  <complexContent>
+    <extension base="b:Native" />
+      <sequence>
+        <element ref="b:documentation" minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+    </extension>
+  </complexContent>
+</complexType>
+
+==end
+
+=description
+
+<p>There may be more documents which match a certain situation.</p>
+
+=discuss future
+
+<p>There may be a need to create an <code>c:document</code> which extends
+<SCHEMA>b:documention</SCHEMA> to be able to handle more complex situations,
+like translation support.</p>

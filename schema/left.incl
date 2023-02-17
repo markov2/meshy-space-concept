@@ -1,10 +1,14 @@
-<p>Schema: 'concept'<br>
-namespace: <code>msc:</code></p>
+<p class="list">MS Concept</p>
+<ul>
+<li>prefix: <code>msc:</code></li>
+<li>schema: <code>b:</code></li>
+</ul>
 
 <p class="list">Categories:</p>
 <ul>
 <li><a href="/schemas/concept/collections/">collections</a></li>
 <li><a href="/schemas/concept/constants/">constants</a></li>
+<li><a href="/schemas/concept/documentation/">documentation</a></li>
 <li><a href="/schemas/concept/identities/">identities</a></li>
 <li><a href="/schemas/concept/stores/">stores</a></li>
 </ul>

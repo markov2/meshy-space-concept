@@ -46,22 +46,22 @@ parts and values:</p>
 <dd>When the jurisdiction of data is not defined, it will cause
     complications implementing regulations and enforce law.  It
     is RECOMMENDED to set your jurisdiction on Store level.
-    See <SCHEMA>b:jurisdiction</SCHEMA>.
+    See <SCHEMA>b:jurisdiction</SCHEMA>.</dd>
 <dt>Indentities of users</dt>
 <dd><SCHEMA>b:identity</SCHEMA> units, which are used for
-    <UNIT>msc:Role/Access</UNIT></dd>
-    <UNIT>msc:Role/Publisher</UNIT></dd>
+    <UNIT>msc:Role/Access</UNIT>,
+    <UNIT>msc:Role/Publisher</UNIT>,
     <UNIT>msc:Role/Owner</UNIT></dd>
 <dt>Definitions of servers</dt>
 <dd>The <SCHEMA>b:server</SCHEMA> descriptions, which are used
     to communicate with the customers.  The collections will
     define their location within those servers.</dd>
-</dt>
+</dl>
 
 =example Companies owning stores
 
 <XML>
-<b:unit b:id="mine:Company" ms:type="msc:Role/Store">
+<b:unit b:id="mine:Company" b:type="msc:Role/Store">
   <b:part b:ref="mine:Store/Utrecht" b:type="msc:Role/Store" />
   <b:part b:ref="mine:Store/NewYork" b:type="msc:Role/Store" />
 </b:unit>
